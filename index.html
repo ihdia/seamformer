@@ -1,0 +1,397 @@
+﻿<!DOCTYPE html
+          PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Palmira - Indiscapesv2</title>
+    <!--=================Meta tags==========================-->
+    <meta name="robots" content="index,follow" />
+    <meta name="description"
+          content="A Deep Deformable Network for Instance Segmentation of Dense and Uneven Layouts in Handwritten Manuscripts" />
+    <meta name="keywords"
+          content="instance segmentation, deformable convolutional network, historical document analysis, document image segmentation, dataset" />
+    <link rel="author" href="https://syzygianinfern0.github.io/" />
+    <!--=================js and css==========================-->
+
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="./jquery-magnify.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Quattrocento+Sans&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="./jquery-magnify.css" />
+    <link rel="stylesheet" type="text/css" href="./project.css" media="screen" />
+    <!-- Latex -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+        TeX: { equationNumbers: { autoNumber: "AMS" } },
+        });
+    </script>
+    <script type="text/javascript" async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async async=async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <!-- <link href="//vjs.zencdn.net/7.10.2/video-js.min.css" rel="stylesheet">
+    <script src="//vjs.zencdn.net/7.10.2/video.min.js"></script>     -->
+
+    <link href="https://unpkg.com/video.js@7/dist/video-js.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
+    <!--=================Google Analytics==========================-->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129775907-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'UA-129775907-1');
+    </script> -->
+    <!-- Bezel-less Image Magnifier-->
+    <style>
+        .magnify-modal {
+            box-shadow: 0 0 6px 2px rgba(0, 0, 0, .3);
+        }
+
+        .magnify-header .magnify-toolbar {
+            background-color: rgba(0, 0, 0, .5);
+        }
+
+        .magnify-stage {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            border-width: 0;
+        }
+
+        .magnify-footer .magnify-toolbar {
+            background-color: rgba(0, 0, 0, .5);
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .magnify-header,
+        .magnify-footer {
+            pointer-events: none;
+        }
+
+        .magnify-button {
+            pointer-events: auto;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="content">
+        <img src="./assets/iiith-logo.png" style="float: left; width: 20%; height: 20%;" />
+        <img src="./assets/cvit-logo.jpg" style="float: right; width: 10%; height: 10%;" />
+        <div id="content-inner">
+            <div class="section head" id="title-section">
+                <h1>
+                    <!-- Palm leaf Manuscript Region Annotator -->
+                    <font color="Tomato">PALMIRA</font>:
+                    <font color="Tomato">PA</font>lm
+                    <font color="Tomato">L</font>eaf
+                    <font color="Tomato">M</font>anuscr<font color="Tomato">I</font>pt
+                    <font color="Tomato">R</font>egion
+                    <font color="Tomato">A</font>nnotator
+                </h1>
+                <h1>
+                    A Deep Deformable Network for Instance Segmentation of Dense and Uneven Layouts in Handwritten
+                    Manuscripts
+                </h1>
+                <!--=================Authors==========================-->
+                <div class="authors">
+                    <a href="https://syzygianinfern0.github.io/" target="_blank">S. P. Sharan</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="mailto:sowmya.aitha@research.iiit.ac.in" target="_blank">Sowmya Aitha</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="mailto:kraju3998@gmail.com" target="_blank">Amandeep Kumar</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br />
+                    <a href="mailto:abhishek.trivedi@research.iiit.ac.in" target="_blank">Abhishek Trivedi</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="mailto:aaron.saju@students.iiit.ac.in" target="_blank">Aaron Augustine</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="https://ravika.github.io/" target="_blank">Ravi Kiran Sarvadevabhatla</a>
+                </div>
+
+                <div class="affiliations ">
+                    All authors affiliated with the International Institute of Information Technology, Hyderabad <br />
+                    <!-- <sup>3</sup> Uni 3 -->
+                </div>
+                <div class="venue">
+                    To appear at <a href="https://icdar2021.org/">ICDAR 2021</a>
+                </div>
+                <!--=================Tabs==========================-->
+                <ul id="tabs">
+                    <li><a href="#materials" name="#tab1">Paper</a></li>      
+                    <li><a href="#dataset" name="#tab2">Dataset</a></li>
+                    <li><a href="#materials" name="#tab3">Code</a></li>
+                    <li><a href="#results" name="#tab4">Results</a></li>
+                    <li><a href="#citation" name="#tab5">Citation</a></li>
+                </ul>
+            </div>
+            <br />
+            <!--=================Teasers==========================-->
+            <div id="img_intro_examples" class="img_container">
+                <a data-magnify="gallery" data-caption="PALMIRA Architecture" href="./assets/Architecture_final.jpg">
+                    <img style="padding-left: 1rem;" src="./assets/magnifier-icon.png" border="0" width="5%" height="5%" />
+                    <center><img src="./assets/Architecture_final.jpg" border="0" width="90%" /></center>
+                </a>
+            </div>
+            <div class="section">
+                <p style="text-align: center">
+                    <b>The PALMIRA architecture</b>. The orange blocks in the backbone are deformable convolutions. A closer look at the DefGrid Mask Head and the Backbone alteration is provided below in the Network Architecture section.
+                </p>
+            </div>
+            <div class="section">
+                <center>
+                    <div class="vid-border">
+                    <video id="my_video_1" class="video-js vjs-default-skin" controls poster="assets//Palmira - Slides.png" preload="none" data-setup='{ "aspectRatio":"1920:1080", "playbackRates": [1, 1.5, 2] }'>
+                            <source src="assets/Palmira - Slides.mp4" type='video/mp4' />
+                    </video>
+                    </div>
+                </center>
+                
+            </div>
+            <!--=================Highlights==========================-->
+            <div class="section abstract">
+                <h2>Highlights</h2>
+                <ol>                  
+                    <li>
+                        We introduce Indiscapes2, a collection of handwritten palm-leaf manuscripts which is 150% larger compared to its predecessor Indiscapes and contains two additional annotated collections which greatly increase qualitative diversity.
+                    </li>
+                    <li>
+                        In addition, we introduce a novel deep learning based layout parsing architecture called Palm leaf Manuscript Region Annotator or Palmira in short.
+                    </li>
+                    <li>
+                        Through our experiments, we show that Palmira outperforms the previous approach and strong baselines, qualitatively and quantitatively.
+                    </li>
+                    Additionally, we demonstrate the general nature of our approach on out-of-dataset historical manuscripts.
+                    <li>
+                        Complementing the traditional area-centric measures of Intersection-over-Union (IoU) and mean Average Precision (AP), we report the boundary-centric
+                        Hausdorff distance and its variants as part of our evaluation approach.
+                    </li>
+                </ol>
+            </div>
+            <!--=================Network==========================-->
+            <div class="section" ,=, id="network">
+                <h2>Network Architecture</h2>
+                <br />
+                <!--=================*******==========================-->
+                <h3>1. Deformable Convolutions in the Backbone</h3>
+                <div id="vid4" class="img_container">
+                    Deformable Convolutions provide a way to determine suitable local 2D offsets for the default spatial sampling locations
+                    <br />
+                    <br />
+                    <a data-magnify="gallery" data-caption="Deformable Convolutions in the Backbone" href="./assets/Deformable-Conv.jpg">
+                        <img style="padding-left: 1rem;" src="./assets/magnifier-icon.png" border="0" width="5%" height="5%" />
+                        <center>
+                            <div class="leftView">
+                                <div class="mask" style="width:10px;height:70px"></div>
+                                <img class='small' src="./assets/Deformable-Conv.jpg" style="width: 50%" />
+                            </div>
+                        </center>
+                    </a>
+                </div>
+                <br />
+                <!--=================*******==========================-->
+                <h3>2. Deformable Grid Mask Head</h3>
+                <div id="vid4" class="img_container">
+                    The Deformable Grid Mask Head network is optimized to predict the offsets of the grid vertices such that a subset of edges incident on the vertices form a closed contour which aligns with the region boundary.
+                    <br />
+                    <br />
+                    <a data-magnify="gallery" data-caption="Deformable Grid Mask Head" href="./assets/Defgrid-Arch.jpg">
+                        <img style="padding-left: 1rem;" src="./assets/magnifier-icon.png" border="0" width="5%" height="5%" />
+                        <center>
+                            <div class="leftView">
+                                <div class="mask" style="width:10px;height:70px"></div>
+                                <img class='small' src="./assets/Defgrid-Arch.jpg" style="width: 75%" />
+                            </div>
+                        </center>
+                    </a>
+                </div>
+                <br />
+                <!-- <div class="row">
+                <div class="column">
+                    <img src="./assets/Deformable-Conv.jpg" alt="Deformable-Conv" style="width:100%">
+                </div>
+                <div class="column">
+                    <img src="./assets/Defgrid-Arch.jpg" alt="Deformable-Conv" style="width:100%">
+                </div>
+            </div> -->
+            </div>
+
+            <!--=================Dataset==========================-->
+            <div class="section" ,=, id="dataset">
+                <h2>Dataset</h2>
+                <br />
+                <a data-magnify="gallery" data-caption="Indiscapes2" href="./assets/Indiscapes2.jpg">
+                    <img style="padding-left: 1rem;" src="./assets/magnifier-icon.png" border="0" width="5%" height="5%" />
+                    <center>
+                        <img src="./assets/Indiscapes2.jpg" alt="Indiscapes2" style="width:75%" />
+                    </center>
+                </a>
+                <p>
+                    Representative manuscript images from Indiscapes2
+                    <ul>
+                        <li>
+                            <i><font color="Tomato">(Newly added)</font></i> <b>ASR</b> (top left, pink dotted line)
+                        </li>
+                        <li>
+                            <b>Penn-in-Hand</b> (bottom left, blue dotted line)
+                        </li>
+                        <li>
+                            <b>Bhoomi</b> (top right, green dotted line)
+                        </li>
+                        <li>
+                            <i><font color="Tomato">(Newly added)</font></i> <b>Jain</b> (bottom right, brown dotted line)
+                        </li>
+                    </ul>
+                    Note the diversity across collections in terms of document quality, region density, aspect ratio and non-textual elements (pictures).
+                </p>
+                <center>
+                    <img src="./assets/Dataset-Stats.jpg" alt="Indiscapes2" style="width:50%" />
+                </center>
+            </div>
+
+            <!--=================Materials==========================-->
+            <div class="section materials" ,=, id="materials">
+                <h2>Materials</h2>
+                <table width="100%" align="center" border=none cellspacing="0" cellpadding="30">
+                    <tr>
+                        </td>
+                        <td width="50%" valign="middle">
+                            <center>
+                                <a href="https://arxiv.org/abs/2108.09436" target="_blank"
+                                   class="imageLink"><img src="./assets/Paper-Thumbnail-Crop.jpg" ,=, width="75%" /></a><br /><br />
+                                <a href="https://arxiv.org/abs/2108.09436" target="_blank">Paper</a>
+                                <!--
+                                <a href="https://drive.google.com/file/d/163h9c30sWuxw2VxcmEwvUMnjHzJk8lNE/view?usp=sharing" target="_blank">Paper</a>
+                                -->
+                            </center>
+
+                        </td>
+
+                        <td width="50%" valign="middle">
+                            <center>
+                                <a href="https://github.com/ihdia/palmira" target="_blank"
+                                   class="imageLink"><img src="./assets/icon_github.png" ,=, width="40%" /></a><br /><br />
+                                <a href="https://github.com/ihdia/palmira" target="_blank">Code [PyTorch, Detectron2]</a>
+                            </center>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!--=================Abstract==========================-->
+            <div class="section abstract">
+                <h2>Abstract</h2>
+                <br />
+                <p>
+                    Handwritten documents are often characterized by dense and uneven layout. Despite advances, standard deep network based approaches for semantic layout segmentation are not robust to complex deformations seen across semantic regions. This phenomenon is especially pronounced for the low-resource Indic palm-leaf manuscript domain. To address the issue, we first introduce Indiscapes2, a new large-scale diverse dataset of Indic manuscripts with semantic layout annotations. Indiscapes2 contains documents from four different historical collections and is $150\%$ larger than its predecessor, Indiscapes. We also propose a novel deep network Palmira for robust, deformation-aware instance segmentation of regions in handwritten manuscripts. We also report Hausdorff distance and its variants as a boundary-aware performance measure. Our experiments demonstrate that Palmira provides robust layouts, outperforms strong baseline approaches and ablative variants. We also include qualitative results on Arabic, South-East Asian and Hebrew historical manuscripts to showcase the  generalization capability of Palmira.
+                </p>
+            </div>
+
+            <!--=================Results==========================-->
+            <div class="section" ,=, id="results">
+                <h2>Results</h2>
+                <!--=================*******==========================-->
+                <h3>1. Indiscapesv2 Test Set - Document Level</h3>
+                <div id="vid4" class="img_container">
+                    Layout predictions by Palmira on representative test set documents from Indiscapes2 dataset. Note that the colors are used to distinguish region instances. The region category abbreviations are present at corners of the regions.
+                    <br />
+                    <br />
+                    <a data-magnify="gallery" data-caption="Document Level Performance of PALMIRA" href="./assets/Qualitative-Indiscapesv2-Test.jpg">
+                        <img style="padding-left: 1rem;" src="./assets/magnifier-icon.png" border="0" width="5%" height="5%" />
+                        <center>
+                            <div class="leftView">
+                                <div class="mask" style="width:10px;height:70px"></div>
+                                <img class='small' src="./assets/Qualitative-Indiscapesv2-Test.jpg" style="width: 65%;" />
+                            </div>
+                        </center>
+                    </a>
+                </div>
+                <br />
+                <!--=================*******==========================-->
+                <h3>2. Indiscapesv2 Test Set - Region Level Performance </h3>
+                <div id="vid4" class="img_container">
+                    A comparative illustration of region-level performance. Palmira’s predictions are in red. Predictions from the best model among baselines (BoundaryPreserving Mask-RCNN) are in green. Ground-truth boundary is depicted in white.
+                    <br />
+                    <br />
+                    <a data-magnify="gallery" data-caption="Region Level Performance of PALMIRA" href="./assets/Qualitative-Indiscapesv2-Test-RegionLevel.jpg">
+                        <img style="padding-left: 1rem;" src="./assets/magnifier-icon.png" border="0" width="5%" height="5%" />
+                        <center>
+                            <div class="leftView">
+                                <div class="mask" style="width:10px;height:70px"></div>
+                                <img class='small' src="./assets/Qualitative-Indiscapesv2-Test-RegionLevel.jpg" style="width: 65%;" />
+                            </div>
+                        </center>
+                    </a>
+                </div>
+                <br />
+                <!--=================*******==========================-->
+                <h3>3. Other Documents (Out of Dataset)</h3>
+                <div id="vid4" class="img_container">
+                    Layout predictions by Palmira on out-of-dataset handwritten Manuscripts
+                    <br />
+                    <br />
+                    <a data-magnify="gallery" data-caption="Qualitative Results on Other Datasets" href="./assets/Qualitative-Indiscapesv2-Others.jpg">
+                        <img style="padding-left: 1rem;" src="./assets/magnifier-icon.png" border="0" width="5%" height="5%" />
+                        <center>
+                            <div class="leftView">
+                                <div class="mask" style="width:10px;height:70px"></div>
+                                <img class='small' src="./assets/Qualitative-Indiscapesv2-Others.jpg" style="width: 65%;" />
+                            </div>
+                        </center>
+                    </a>
+                </div>
+                <br />
+                <!--=================Citation==========================-->
+                <div class="section citation" ,=, id="citation">
+                    <h2>Citation</h2>
+                    <div class="section bibtex">
+                        <pre>@inproceedings{sharan2021palmira,
+    title = {PALMIRA: A Deep Deformable Network for Instance Segmentation of Dense and Uneven Layouts in Handwritten Manuscripts},
+    author = {Sharan, S P and Aitha, Sowmya and Amandeep, Kumar and Trivedi, Abhishek and Augustine, Aaron and Sarvadevabhatla, Ravi Kiran},
+    booktitle = {International Conference on Document Analysis and Recognition,
+               {ICDAR} 2021},
+    year = {2021},
+}</pre>
+                    </div>
+                </div>
+                <!--=================Contact==========================-->
+                <div class="section contact">
+                    <h2 id="contact">Contact</h2>
+                    <p>If you have any question, please contact Dr. Ravi Kiran Sarvadevabhatla at <strong>ravi.kiran@iiit.ac.in</strong>.</p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+    $('[data-magnify]').magnify({
+      headerToolbar: [
+        'close'
+      ],
+      footerToolbar: [
+        'zoomIn',
+        'zoomOut',
+        'prev',
+        'fullscreen',
+        'next',
+        'actualSize',
+        'rotateRight'
+      ],
+      title: false
+    });
+
+        </script>
+    </div>
+</body>
+
+</html>
