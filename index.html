@@ -129,8 +129,8 @@
             </div>
             <div class="section">
                 <p style="text-align: center">
-                    <b>SeamFormer Pipeline </b> "Stage I: Multi-task ViT for binarisation and scribble map generation, leading to precise scribble creation.
-                    Stage II: Leveraging scribbles and binary maps to produce global features, enabling our seam generation algorithm for accurate tight-fit polygons."                   
+                    <b>SeamFormer Pipeline </b> Stage I: Multi-task ViT for binarisation and scribble map generation, leading to precise scribble creation.
+                    Stage II: Leveraging scribbles and binary maps to produce global features, enabling our seam generation algorithm for accurate tight-fit polygons.               
                 </p>
             </div>
             <div class="section">
@@ -164,17 +164,19 @@
                 <h2>Network Architecture</h2>
                 <br />
                 <!--=================*******==========================-->
-                <h3>1. Deformable Convolutions in the Backbone</h3>
+                <h3>Stage I : Scribble Generation </h3>
                 <div id="vid4" class="img_container">
-                    Deformable Convolutions provide a way to determine suitable local 2D offsets for the default spatial sampling locations
+                    A multi-task variant of Vision Transformer (ViT) deep network architecture has been proposed to obtain two outputs: the binarized version of the input manuscript image and the medial blob masks for each text line. 
+                    The blob mask outputs are post-processed to extract thin medial axis-like structures (scribbles) which cut across the line. These scribbles provide crucial information regarding local curvature of the text line. 
+                    Accurate determination of local curvature plays a key role for the next stage of processing and ultimately, for accurate text line segmentation.
                     <br />
                     <br />
-                    <a data-magnify="gallery" data-caption="Deformable Convolutions in the Backbone" href="./assets/Deformable-Conv.jpg">
+                    <a data-magnify="gallery" data-caption="Stage I" href="./assets/sf/Stage1_web.png">
                         <img style="padding-left: 1rem;" src="./assets/magnifier-icon.png" border="0" width="5%" height="5%" />
                         <center>
                             <div class="leftView">
                                 <div class="mask" style="width:10px;height:70px"></div>
-                                <img class='small' src="./assets/Deformable-Conv.jpg" style="width: 50%" />
+                                <img class='small' src="./assets/sf/Stage1_web.png" style="width: 50%" />
                             </div>
                         </center>
                     </a>
