@@ -141,8 +141,8 @@
                     </video>
                     </div>
                 </center>
-                
             </div>
+
             <!--=================Highlights==========================-->
             <div class="section abstract">
                 <h2>Highlights</h2>
@@ -185,7 +185,7 @@
                 <!--=================*******==========================-->
                 <h3>Stage II : Text Line Polygon Generation </h3>
                 <div id="vid4" class="img_container">
-                    In this stage, there are two sub-stages: Feature Map Generation and Scribble-conditioned Seam Generation. Initially, we generate paired pseudo-scribbles for each scribble, which are utilized in subsequent pipeline stages . Then, the scribbles are superimposed on the binarized input image, producing an image with scribble overlays. These overlays help create tailored feature maps. These feature maps serve as inputs for a seam generation process, resulting in the accurate and intricate polygons that enclose the text lines.
+                    In this stage, there are two sub-stages: Feature Map Generation and Scribble-conditioned Seam Generation. The scribbles are superimposed on the binarized input image, producing an image with scribble overlays.  These feature maps serve as inputs for a seam generation process, resulting in the accurate and intricate polygons that enclose the text lines.
                     <br />
                     <br />
                     <a data-magnify="gallery" data-caption="Stage II" href="./assets/sf/SeamsGeneration.jpg">
@@ -199,16 +199,17 @@
                     </a>
                 </div>
                 <br />
-                <!-- <div class="row">
-                <div class="column">
-                    <img src="./assets/Deformable-Conv.jpg" alt="Deformable-Conv" style="width:100%">
+                <h4>Seam Understanding :  </h3>
+                <div class="section">
+                    <center>
+                        <div class="vid-border">
+                        <video id="my_video_2" class="video-js vjs-default-skin" controls poster="./assets/sf/test.pngS" preload="none" data-setup='{ "aspectRatio":"1920:1080", "playbackRates": [1, 1.5, 2] }'>
+                                <source src="./assets/sf/seam_generation_ASR.mp4" type='video/mp4' />
+                        </video>
+                        </div>
+                    </center>
                 </div>
-                <div class="column">
-                    <img src="./assets/Defgrid-Arch.jpg" alt="Deformable-Conv" style="width:100%">
-                </div>
-            </div> -->
             </div>
-
             <!--=================Dataset==========================-->
             <div class="section" ,=, id="dataset">
                 <h2>South Asian Manuscripts Dataset</h2>
@@ -251,10 +252,10 @@
                             <b>Sundaneese Manuscript </b> (Extreme Document Degradations , first)
                         </li>
                         <li>
-                            <b>Khmer Manuscript </b> Poor Text Contrast (Low Ink) (second,third)
+                            <b>Khmer Manuscript </b> (Poor Text Contrast - Low Ink , second , third)
                         </li>
                         <li>
-                            <b>Balineese Manuscript</b> Poor Document Constrast (fourth from top)
+                            <b>Balineese Manuscript</b> (Poor Document Contrast , fourth )
                         </li>
                     </ul>
                     Note the diversity across collections in terms of document quality, region density, aspect ratio and non-textual elements (pictures).
