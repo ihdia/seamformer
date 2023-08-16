@@ -171,29 +171,29 @@
                     Accurate determination of local curvature plays a key role for the next stage of processing and ultimately, for accurate text line segmentation.
                     <br />
                     <br />
-                    <a data-magnify="gallery" data-caption="Stage I" href="./assets/sf/Stage1_web.png">
+                    <a data-magnify="gallery" data-caption="Stage I" href="./assets/sf/RE_Stage1.png">
                         <img style="padding-left: 1rem;" src="./assets/magnifier-icon.png" border="0" width="5%" height="5%" />
                         <center>
                             <div class="leftView">
                                 <div class="mask" style="width:10px;height:70px"></div>
-                                <img class='small' src="./assets/sf/Stage1_web.png" style="width: 50%" />
+                                <img class='small' src="./assets/sf/RE_Stage1.png" style="width: 50%" />
                             </div>
                         </center>
                     </a>
                 </div>
                 <br />
                 <!--=================*******==========================-->
-                <h3>2. Deformable Grid Mask Head</h3>
+                <h3>Stage II : Text Line Polygon Generation </h3>
                 <div id="vid4" class="img_container">
-                    The Deformable Grid Mask Head network is optimized to predict the offsets of the grid vertices such that a subset of edges incident on the vertices form a closed contour which aligns with the region boundary.
+                    In this stage, there are two sub-stages: Feature Map Generation and Scribble-conditioned Seam Generation. Initially, we generate paired pseudo-scribbles for each scribble, which are utilized in subsequent pipeline stages . Then, the scribbles are superimposed on the binarized input image, producing an image with scribble overlays. These overlays help create tailored feature maps. These feature maps serve as inputs for a seam generation process, resulting in the accurate and intricate polygons that enclose the text lines.
                     <br />
                     <br />
-                    <a data-magnify="gallery" data-caption="Deformable Grid Mask Head" href="./assets/Defgrid-Arch.jpg">
+                    <a data-magnify="gallery" data-caption="Stage II" href="./assets/sf/SeamsGeneration.jpg">
                         <img style="padding-left: 1rem;" src="./assets/magnifier-icon.png" border="0" width="5%" height="5%" />
                         <center>
                             <div class="leftView">
                                 <div class="mask" style="width:10px;height:70px"></div>
-                                <img class='small' src="./assets/Defgrid-Arch.jpg" style="width: 75%" />
+                                <img class='small' src="./assets/sf/SeamsGeneration.jpg" style="width: 75%" />
                             </div>
                         </center>
                     </a>
