@@ -129,7 +129,8 @@
             </div>
             <div class="section">
                 <p style="text-align: center">
-                    <b>The PALMIRA architecture</b>. The orange blocks in the backbone are deformable convolutions. A closer look at the DefGrid Mask Head and the Backbone alteration is provided below in the Network Architecture section.
+                    <b>SeamFormer Pipeline </b> "Stage I: Multi-task ViT for binarisation and scribble map generation, leading to precise scribble creation.
+                    Stage II: Leveraging scribbles and binary maps to produce global features, enabling our seam generation algorithm for accurate tight-fit polygons."                   
                 </p>
             </div>
             <div class="section">
@@ -147,17 +148,13 @@
                 <h2>Highlights</h2>
                 <ol>                  
                     <li>
-                        We introduce Indiscapes2, a collection of handwritten palm-leaf manuscripts which is 150% larger compared to its predecessor Indiscapes and contains two additional annotated collections which greatly increase qualitative diversity.
+                        Historical South Asian palm leaf manuscripts are challenging to segment text lines from due to dense, unstructured text lines, high aspect ratio, and complex diacritic elements.
                     </li>
                     <li>
-                        In addition, we introduce a novel deep learning based layout parsing architecture called Palm leaf Manuscript Region Annotator or Palmira in short.
+                        SeamFormer is a novel approach for high precision text line segmentation in handwritten manuscripts. It addresses the challenges of dense unstructured text lines by using a two-stage approach: a multi-task Transformer deep network outputs coarse line identifiers and a scribble-conditioned seam generation procedure generates tight-fitting line segmentation polygons. 
                     </li>
                     <li>
-                        Through our experiments, we show that Palmira outperforms the previous approach and strong baselines, qualitatively and quantitatively.
-                    </li>
-                    Additionally, we demonstrate the general nature of our approach on out-of-dataset historical manuscripts.
-                    <li>
-                        Complementing the traditional area-centric measures of Intersection-over-Union (IoU) and mean Average Precision (AP), we report the boundary-centric
+                        Via experiments and evaluations on new and existing challenging palm leaf manuscript datasets, we show that SeamFormer outperforms competing approaches and generates precise text line segmentations.Complementing the traditional area-centric measures of Intersection-over-Union (IoU) and mean Average Precision (AP), we report the boundary-centric
                         Hausdorff distance and its variants as part of our evaluation approach.
                     </li>
                 </ol>
