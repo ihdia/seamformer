@@ -2,7 +2,6 @@
 Given the dataset 
 in the desired structure
 mentioned in README .
-
 Args: 
   > Input  : Configurations for image and dataset JSON file . 
             > Ground Truth Binary Folder.
@@ -10,8 +9,6 @@ Args:
   > Output : Set of final folders where everything is structured as per the input to code.
 
 '''
-
-
 # Library Imports
 import sys 
 import os 
