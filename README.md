@@ -14,7 +14,7 @@
 |:-------------------:|:-------------------:|
 
 <br>
-
+<img src="assets/SF-Slides-Page.png">
 </div>
 
 ## Table of contents
@@ -66,6 +66,8 @@ Stage - 2: Uses binarisation and scribble output from previous stage to create c
 
   ![stage 2](assets/stage2.png)  
 </div>
+
+
 
 
 ## Model Inference
