@@ -35,9 +35,9 @@
 To make the code run, install the necessary libraries preferably using [conda](https://www.anaconda.com/) or else [pip](https://pip.pypa.io/en/stable/) environment manager.
 
 ```bash
-conda create -n stage1 python=3.7.11
-conda activate stage1
-pip install -r stage1_requirements.txt
+conda create -n seamformer python=3.7.11
+conda activate seamformer
+pip install -r requirements.txt
 ```
 
 ## Model 
@@ -46,7 +46,7 @@ Overall Two-stage Architecture: Stage-1 generated binarised output with just tex
 
 <div align="center">
 
-![Overall Architecture](readme_imgs/overall.png)
+![Overall Architecture](assets/overall.png)
 </div>
 
 <br>
@@ -54,7 +54,7 @@ Stage - 1: Uses Encoder-Decoder based multi-task vision transformer to generate 
 
 <div align="center">
 
-  ![stage 1](readme_imgs/stage1.png)  
+  ![stage 1](assets/stage1.png)  
 </div>
 
 <br>
@@ -64,9 +64,8 @@ Stage - 2: Uses binarisation and scribble output from previous stage to create c
 
 <div align="center">
 
-  ![stage 2](readme_imgs/stage2.png)  
+  ![stage 2](assets/stage2.png)  
 </div>
-
 
 
 ## Model Inference
@@ -80,31 +79,33 @@ Stage - 2: Uses binarisation and scribble output from previous stage to create c
 ## Training
 ---
 The SeamFormer is split into two parts:
-- Stage-1: Binarisation and Scribble Generation
-- Stage-2: Seam generation and final segmentation prediction
+- Stage-1: Binarisation and Scribble Generation [ Requires Training ]
+- Stage-2: Seam generation and final segmentation prediction [ No Training ]
 
 <br>
 
 ### Preparing the Data
 To train the model dataset should be in a folder following the hierarchy: 
-
+In case of references to datacode , it is simply a codeword for dataset name .
+For example , Sundaneese Manuscripts is known as 'SD'.
 ```
-├── Dataset
-│   ├── <Dataset>_Train
-│   │   ├── imgs
-│   │   ├── bin_imgs
-│   │   ├── train.json
-│   ├── <Dataset>_Test
-│   │   ├── imgs
-│   │   ├── bin_imgs
-│   │   ├── test.json
+├── DATASET
+│   ├── <DATASET>Train
+│   │   ├── images/
+│   │   ├── binaryImages/
+│   │   ├── <DATASET>_TRAIN.json
+│   ├── <Dataset>Test
+│   │   ├── images/
+│   │   ├── binaryImages/
+│   │   ├── <DATASET>_TEST.json
 │
 ├── ...
 ```
 
 ### Preparing the configuration files
+For each experiment, internal parameters have been extracted to an external configuration JSON file. To modify values for your experiment, please do so here.
 
-`<dataset_name>_<exp_name>_Configuration.json`
+Format : `<dataset_name>_<exp_name>_Configuration.json`
 
 
   | Parameters  | Description | Default Value
@@ -130,36 +131,35 @@ To train the model dataset should be in a folder following the hierarchy:
   | enableWandb  | Enable it if you have wandB configured, else the results are stored locally in  `visualisation_folder`  | false |
 
 
-
 ### Stage-1
 Stage 1 comprises of a multi-task tranformer for binarisation and scribble generation.
-
 
 #### Sample train/test.json file structure
 ```bash
 [
-  {"imgPath": "./ICDARTrain/SD/SD_Train/imgs/palm_leaf_1.jpg",
-   "gdPolygons": [[[x11,y11],[x12,y12]...],[[x21,y21],[x22,y22]...], ...],
-   "scribbles": [[[x11,y11],[x12,y12]...],[[x21,y21],[x22,y22]...], ...]
-  } ,
+  {"imgPath": "./ICDARTrain/SD_DATA/SD_TRAIN/images/palm_leaf_1.jpg",
+   "gdPolygons": [[[x11,y11],[x12,y12]...],[[x21,y21],[x22,y22]...], ...[[xn1,yn1],[xn2,yn2]...]],
+   "scribbles": [[[x11,y11],[x12,y12]...],[[x21,y21],[x22,y22]...], ...[[xn1,yn1],[xn2,yn2]...]]]
+  },
   ...
 ]
 ```
 
 #### Data Preparation for Binarisation and Scribble Generation
+
+The Stage I architecture of the SeamFormer pipeline is dependent on image patches (default : 256 x 256 pixels). Therefore, by providing the path folder and relevant parameters, the following script arranges the patch data within their corresponding folders. 
+
+*Note* : The argument 'binaryFolderPath' is optional , and in the default case it will rely 
+Sauvola-Niblack to create the binarisation images.
+
 ```bash
 python datapreparation.py \
  --datafolder '/data/' \
- --outputfolderPath '/SD_train_patches' \
- --inputjsonPath '/data/ICDARTrain/SD/SD_Train/train.json' \
- --binaryFolderPath '/data/ICDARTrain/SD/SD_Train/bin_imges'
-
-python datapreparation.py \
- --datafolder '/ICDAR2023/' \
- --outputfolderPath '/SD_test_patches' \
- --inputjsonPath '/data/ICDARTrain/SD/SD_Test/test.json' \
- --binaryFolderPath '/data/ICDARTest/SD/SD_Test/bin_imges'
+ --outputfolderPath './SD_train_patches' \
+ --inputjsonPath '/data/ICDARTrain/SD_DATA/SD_TRAIN/SD_TRAIN.json' \
+ --binaryFolderPath '/data/ICDARTrain/SD_DATA/SD_TRAIN/binaryImages'
 ```
+
 
 #### Training Binarisation branch
 ```bash
@@ -186,7 +186,7 @@ Download Pretrained weights for binarisation from this [drive link]() and change
 ## Visual Results
 From top left, clockwise - Bhoomi, Penn In hand, Khmer, Jain.
 
-![Visual results](readme_imgs/Net_New_Drawing.svg)  
+![Visual results](assets/Net_New_Drawing.svg)  
 ---
 ## Citation
 
