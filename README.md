@@ -23,8 +23,8 @@
 2. [Model Overview](#model)
 3. [Model Inference](#model)
 4. [Training](#model)
-    - [Preparing Data](#preparing-the-data)
-    - [Preparing Configs](#Preparing-the-configuration-files)
+    - [Data Preparation](#preparing-the-data)
+    - [Configuration](#Preparing-the-configuration-files)
     - [Stage-1](#stage-1)
     - [Stage-2](#stage-2)
 5. [Finetuning](#finetuning) 
@@ -68,8 +68,6 @@ Stage - 2: Uses binarisation and scribble output from previous stage to create c
 </div>
 
 
-
-
 ## Model Inference
 ---
 
@@ -89,7 +87,7 @@ The SeamFormer is split into two parts:
 ### Preparing the Data
 To train the model dataset should be in a folder following the hierarchy: 
 In case of references to datacode , it is simply a codeword for dataset name .
-For example , Sundaneese Manuscripts is known as 'SD'.
+For example , Sundaneese Manuscripts is known as `SD`. 
 ```
 ├── DATASET
 │   ├── <DATASET>Train
@@ -151,8 +149,8 @@ Stage 1 comprises of a multi-task tranformer for binarisation and scribble gener
 
 The Stage I architecture of the SeamFormer pipeline is dependent on image patches (default : 256 x 256 pixels). Therefore, by providing the path folder and relevant parameters, the following script arranges the patch data within their corresponding folders. 
 
-*Note* : The argument 'binaryFolderPath' is optional , and in the default case it will rely 
-Sauvola-Niblack to create the binarisation images.
+*Note* : The argument `binaryFolderPath` is optional , and in the default case it will rely 
+Sauvola-Niblack binarisation technique to create the binarisation images.
 
 ```bash
 python datapreparation.py \
@@ -162,8 +160,10 @@ python datapreparation.py \
  --binaryFolderPath '/data/ICDARTrain/SD_DATA/SD_TRAIN/binaryImages'
 ```
 
-
 #### Training Binarisation branch
+
+In the process, 
+
 ```bash
 python train.py --exp_json_path 'SD_exp1_Configuration.json' --mode 'train' --train_binary
 ```
@@ -196,7 +196,3 @@ From top left, clockwise - Bhoomi, Penn In hand, Khmer, Jain.
 ## Contact 
 For any suggestions/contributions to the repository , please contact : <br />
 Niharika Vadlamudi - niharika11988@gmail.com / niharika.vadlamudi@research.iiit.ac.in
-
-
-### To do:
-- rename config file
