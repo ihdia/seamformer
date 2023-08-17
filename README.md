@@ -36,6 +36,9 @@
 </table>
 </div>
 
+---
+</div>
+
 ## Table of contents
 ---
 1. [Getting Started](#getting-started)
