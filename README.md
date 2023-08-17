@@ -17,6 +17,26 @@
 <img src="assets/SF-Slides-Page.png">
 </div>
 
+<div align="center">
+    <!-- <a href="https://youtu.be/V4XWngkrtxQ">
+        <img src="https://img.shields.io/badge/Watch on YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white"/>
+    </a> -->
+<!-- <br> -->
+<table>
+    <tr>
+        <td>
+            <a href="https://drive.google.com/file/d/1aztOQW7b24D1OqzJ3Yv-j9XPG0iBbnap/view?usp=share_link" target="_blank">
+                <img src="http://img.youtube.com/vi/V4XWngkrtxQ/maxresdefault.jpg" alt="Watch the video" width="640" height="360" border="5"/>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <th><samp>Teaser Video </samp></th>
+    </tr>
+</table>
+</div>
+
+
 ## Table of contents
 ---
 1. [Getting Started](#getting-started)
@@ -162,7 +182,7 @@ python datapreparation.py \
 
 #### Training Binarisation branch
 
-In the process, 
+For the SeamFormer pipeline , we first start out by training the encoder and binarisation branch (while freezing scribble branch ) . To start the process , we initialise with [DocENTR's pretrained weights]().
 
 ```bash
 python train.py --exp_json_path 'SD_exp1_Configuration.json' --mode 'train' --train_binary
