@@ -45,8 +45,8 @@
 2. [Model Overview](#model)
 3. [Model Inference](#model)
 4. [Training](#model)
-    - [Data Preparation](#preparing-the-data)
-    - [Configuration](#Preparing-the-configuration-files)
+    - [Data Preparation](#Data-Preparation)
+    - [Configuration](#Preparing-the-configuration-file)
     - [Stage-1](#stage-1)
     - [Stage-2](#stage-2)
 5. [Finetuning](#finetuning) 
@@ -103,8 +103,6 @@ Stage - 2: Uses binarisation and scribble output from previous stage to create c
 The SeamFormer is split into two parts:
 - Stage-1: Binarisation and Scribble Generation [ Requires Training ]
 - Stage-2: Seam generation and final segmentation prediction [ No Training ]
-
-<br>
 
 ### Preparing the Data
 To train the model dataset should be in a folder following the hierarchy: 
@@ -167,8 +165,7 @@ Stage 1 comprises of a multi-task vision transformer for binarisation and scribb
   ...
 ]
 ```
-
-#### Data Preparation for Binarisation and Scribble Generation
+#### Data Preparation : Binarisation & Scribble Generation
 
 The Stage I architecture of the SeamFormer pipeline is dependent on image patches (default : 256 x 256 pixels). Therefore, by providing the path folder and relevant parameters, the following script arranges the patch data within their corresponding folders. 
 
@@ -182,7 +179,7 @@ python datapreparation.py \
  --binaryFolderPath './data/ICDARTrain/SD_DATA/SD_TRAIN/binaryImages'
 ```
 
-#### Training Binarisation branch
+#### Training Binarisation Branch
 
 For the SeamFormer pipeline , we first start out by training the encoder and binarisation branch (while freezing scribble branch ) . To start the process , you can optionally initialise with [DocENTR's pretrained weights](https://drive.google.com/file/d/1qnIDVA7C5BGInEIBT65OogT0N9ca_E97/view).
 
@@ -192,7 +189,7 @@ python train.py --exp_json_path 'SD_Exp1_Configuration.json' --mode 'train' --tr
 
 After every epoch , we perform validation and we store the train loss , average PSNR and few randomly selected image patches along with their ground truth in `visualisation_folder`. If `enableWandB` is ON , then they automatically get synced to corresponding WandB account's dashboard and will be tracked across experiment runs. 
 
-#### Training Scribble generation branch 
+#### Training Scribble Branch 
 For training of the binarisation branch , we initialise the branch weights with the prior binary branch weights for better text localisation. 
 
 ```bash
