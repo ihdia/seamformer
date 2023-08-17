@@ -194,9 +194,9 @@ After every epoch , we perform validation and we store the train loss , average 
 
 #### Training Scribble generation branch 
 For training of the binarisation branch , we initialise the branch weights with the prior binary branch weights for better text localisation. 
+
 ```bash
 python train.py --exp_json_path 'SD_Exp1_Configuration.json' --mode 'train' --train_scribble
-
 ```
 
 ### Stage-2
@@ -209,7 +209,8 @@ Download Pretrained weights for binarisation from this [drive link]() and change
 ---
 
 ## Visual Results
-Attached is a collated diagram , starting from Bhoomi , Penn-In-Hand (PIH) , Khmer Palm Leaf Manuscript and Jain Manuscript . Observe the nature of highly precise polygons .
+Attached is a collated diagram , starting top (clockwise ) from Bhoomi , Penn-In-Hand (PIH) , Khmer Palm Leaf Manuscript and Jain Manuscript . Of particular significance is the intrinsic precision exhibited by the predicted polygons depicted within, handling the presence of considerable image degradation, a complex multi-page layout, and an elevated aspect ratio, etc. 
+
 ![Visual results](assets/Net_New_Drawing.jpg)  
 
 # Citation
