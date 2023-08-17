@@ -187,8 +187,8 @@ For the SeamFormer pipeline , we first start out by training the encoder and bin
 python train.py --exp_json_path 'SD_Exp1_Configuration.json' --mode 'train' --train_binary
 ```
 
-After every epoch , we perform validation and we store the train loss , average PSNR and few randomly selected image patches along with their ground truth in `visualisation_folder`. If `enableWandB` is ON , then they automatically get synced to corresponding WandB account's dashboard and will be tracked across experiment runs. 
-
+After every epoch , we perform validation and we store the train loss , average PSNR and few randomly selected image patches along with their ground truth in `visualisation_folder`. If `enableWandB` is configured to be 'true' , then they automatically get synced to corresponding WandB account's dashboard and will be tracked across experiment runs. Additionally , you can override the parameter by specifying `--wandb` flag while executing the above command.
+ 
 #### Training Scribble Branch 
 For training of the binarisation branch , we initialise the branch weights with the prior binary branch weights for better text localisation. 
 
