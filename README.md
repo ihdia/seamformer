@@ -13,15 +13,15 @@
 | **[ [```Paper```](<https://drive.google.com/file/d/1UU_4irR3m8IuuzuOXYl35eK6UbD2d3tH/view>) ]** | **[ [```Website```](<https://ihdia.iiit.ac.in/seamformer/>) ]** |
 |:-------------------:|:-------------------:|
 
-<br>
+<!-- <br>
 <img src="assets/SF-Slides-Page.png">
-</div>
-
+</div> -->
 <div align="center">
     <!-- <a href="https://youtu.be/V4XWngkrtxQ">
         <img src="https://img.shields.io/badge/Watch on YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white"/>
     </a> -->
 <!-- <br> -->
+
 <table>
     <tr>
         <td>
@@ -35,7 +35,6 @@
     </tr>
 </table>
 </div>
-
 
 ## Table of contents
 ---
@@ -152,14 +151,15 @@ Format : `<dataset_name>_<exp_name>_Configuration.json`
 
 
 ### Stage-1
-Stage 1 comprises of a multi-task tranformer for binarisation and scribble generation.
+
+Stage 1 comprises of a multi-task vision transformer for binarisation and scribble generation.
 
 #### Sample train/test.json file structure
 ```bash
 [
   {"imgPath": "./ICDARTrain/SD_DATA/SD_TRAIN/images/palm_leaf_1.jpg",
-   "gdPolygons": [[[x11,y11],[x12,y12]...],[[x21,y21],[x22,y22]...], ...[[xn1,yn1],[xn2,yn2]...]],
-   "scribbles": [[[x11,y11],[x12,y12]...],[[x21,y21],[x22,y22]...], ...[[xn1,yn1],[xn2,yn2]...]]]
+   "gdPolygons": [[[x11,y11]..[x1m,y1m].],....[[xn1,yn1]..[xnm,ynm]]],
+   "scribbles": [[[x11,y11]..[x1m,y1m].],....[[xn1,yn1]..[xnm,ynm]]]
   },
   ...
 ]
@@ -169,32 +169,32 @@ Stage 1 comprises of a multi-task tranformer for binarisation and scribble gener
 
 The Stage I architecture of the SeamFormer pipeline is dependent on image patches (default : 256 x 256 pixels). Therefore, by providing the path folder and relevant parameters, the following script arranges the patch data within their corresponding folders. 
 
-*Note* : The argument `binaryFolderPath` is optional , and in the default case it will rely 
-Sauvola-Niblack binarisation technique to create the binarisation images.
+*Note* : The argument `binaryFolderPath` is optional , and in case if your dataset does not have a binarisation ground truth , it will rely Sauvola-Niblack technique to create the binarisation images.
 
 ```bash
 python datapreparation.py \
- --datafolder '/data/' \
- --outputfolderPath './SD_train_patches' \
- --inputjsonPath '/data/ICDARTrain/SD_DATA/SD_TRAIN/SD_TRAIN.json' \
- --binaryFolderPath '/data/ICDARTrain/SD_DATA/SD_TRAIN/binaryImages'
+ --datafolder './data/' \
+ --outputfolderPath './SD_patches' \
+ --inputjsonPath './data/ICDARTrain/SD_DATA/SD_TRAIN/SD_TRAIN.json' \
+ --binaryFolderPath './data/ICDARTrain/SD_DATA/SD_TRAIN/binaryImages'
 ```
 
 #### Training Binarisation branch
 
-For the SeamFormer pipeline , we first start out by training the encoder and binarisation branch (while freezing scribble branch ) . To start the process , we initialise with [DocENTR's pretrained weights]().
+For the SeamFormer pipeline , we first start out by training the encoder and binarisation branch (while freezing scribble branch ) . To start the process , you can optionally initialise with [DocENTR's pretrained weights](https://drive.google.com/file/d/1qnIDVA7C5BGInEIBT65OogT0N9ca_E97/view).
 
 ```bash
-python train.py --exp_json_path 'SD_exp1_Configuration.json' --mode 'train' --train_binary
+python train.py --exp_json_path 'SD_Exp1_Configuration.json' --mode 'train' --train_binary
 ```
 
+After every epoch , we perform validation and we store the train loss , average PSNR and few randomly selected image patches along with their ground truth in `visualisation_folder`. If `enableWandB` is ON , then they automatically get synced to corresponding WandB account's dashboard and will be tracked across experiment runs. 
 
 #### Training Scribble generation branch 
+For training of the binarisation branch , we initialise the branch weights with the prior binary branch weights for better text localisation. 
 ```bash
-python train.py --exp_json_path 'SD_exp1_Configuration.json' --mode 'train' --train_scribble
+python train.py --exp_json_path 'SD_Exp1_Configuration.json' --mode 'train' --train_scribble
 
 ```
-
 
 ### Stage-2
 ---
@@ -206,13 +206,22 @@ Download Pretrained weights for binarisation from this [drive link]() and change
 ---
 
 ## Visual Results
-From top left, clockwise - Bhoomi, Penn In hand, Khmer, Jain.
+Attached is a collated diagram , starting from Bhoomi , Penn-In-Hand (PIH) , Khmer Palm Leaf Manuscript and Jain Manuscript . Observe the nature of highly precise polygons .
+![Visual results](assets/Net_New_Drawing.jpg)  
 
-![Visual results](assets/Net_New_Drawing.svg)  
----
-## Citation
+# Citation
+Please use the following BibTeX entry for citation .
+```bibtex
+@inproceedings{vadlamudiniharikaSF,
+    title = {SeamFormer: High Precision Text Line Segmentation for Handwritten Documents},
+    author = {Vadlamudi,Niharika and Rahul,Krishna and Sarvadevabhatla, Ravi Kiran},
+    booktitle = {International Conference on Document Analysis and Recognition,
+            {ICDAR} 2023},
+    year = {2023},
+}
+```
+# Contact
+For any queries, please contact [Dr. Ravi Kiran Sarvadevabhatla](mailto:ravi.kiran@iiit.ac.in.)
 
----
-## Contact 
-For any suggestions/contributions to the repository , please contact : <br />
-Niharika Vadlamudi - niharika11988@gmail.com / niharika.vadlamudi@research.iiit.ac.in
+# License
+This project is open sourced under [MIT License](LICENSE).
