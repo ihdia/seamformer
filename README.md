@@ -196,7 +196,6 @@ The script will return the predicted text lines and store the results in the con
 
 ## Downloading Pre-Trained Weights
 Download our existing modelcheckpoints for SeamFormer network via the following commands , additionally you have to override `pretrained_weights_path` in experiment configuration file accordingly.
-
 ```bash
 $ pip install gdown 
 ```
@@ -208,8 +207,16 @@ For Balineese/Sundaneese/Khmer Checkpoint
 ```bash
 $ gdown 1nro1UjYRSlMIaYUwkMTrfZzrE_kz0QDF
 ```
+Alternatively , you can also run the `downloadWeights.sh` file for one shot download of all the various dataset 
+pretrained weights . Please configure the destination path inside the bash script.
 
-## Inference
+```bash
+$ bash downloadWeights.sh
+```
+
+## Inference : 
+
+# Via Code 
 ---
 For our pipeline infrence, we have provided two options for our users : via an input json file & input image folder path . In the former case , we expect details of imgPath of the test samples present in the JSON File . Please note , you will have to enable flag `input_json` or `input_folder` accordingly.
 
@@ -223,6 +230,8 @@ $ python3 inference.py --exp_name "Ver1" --input_image_folder './KH_TEST/images/
 ```
 Please note , by default we store all the visualisations - binary image , raw scribble image and scribble overlaid images in the sub-directories of `visualisation_folder` , you can turn it off via '`vis` flag.
 
+# Via Notebook 
+TBD.
 ---
 
 ## FineTuning : Custom Dataset 
