@@ -216,7 +216,7 @@ $ bash downloadWeights.sh
 
 ## Inference : 
 
-# Via Code 
+### Via Code 
 ---
 For our pipeline infrence, we have provided two options for our users : via an input json file & input image folder path . In the former case , we expect details of imgPath of the test samples present in the JSON File . Please note , you will have to enable flag `input_json` or `input_folder` accordingly.
 
