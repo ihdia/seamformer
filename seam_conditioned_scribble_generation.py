@@ -2,7 +2,6 @@
 Stage2 : SeamFormer Version
 '''
 
-import imageio
 import sys
 import os
 import cv2

@@ -90,14 +90,6 @@ Stage - 2: Uses binarisation and scribble output from previous stage to create c
 </div>
 
 
-## Model Inference
----
-
-### Usage
-- Access via [Colab file]() or [Python file]().
-- For Python file
-  - You can either provide json file or image folder path.
-
 ## Training
 ---
 The SeamFormer is split into two parts:
@@ -198,13 +190,25 @@ python train.py --exp_json_path 'SD_Exp1_Configuration.json' --mode 'train' --tr
 
 ### Stage-2
 ---
+For leveraging Stage II - Scribble conditioned seam generation , we need to supply / provide set of image , binary images and the corresponding scribbles as generated in the previous Stage I. 
+
+```bash
+ADD Stage2.ipynb details here [TBD].
+```
+
+## Model Inference
+---
+### Usage
+- Access via [Colab file]() or [Python file]().
+- For Python file 
+  - You can either provide json file or image folder path.
 
 ## Weights
 
+[TBD ,Will add link here ! ]
 Download Pretrained weights for binarisation from this [drive link]() and change the *pretrained_weights_path* in the json files in `configs` directory accordingly.
 
 ---
-
 ## Visual Results
 Attached is a collated diagram , starting top (clockwise ) from Bhoomi , Penn-In-Hand (PIH) , Khmer Palm Leaf Manuscript and Jain Manuscript . Of particular significance is the intrinsic precision exhibited by the predicted polygons depicted within, handling the presence of considerable image degradation, a complex multi-page layout, and an elevated aspect ratio, etc. 
 
