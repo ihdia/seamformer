@@ -115,10 +115,7 @@ For example , Sundaneese Manuscripts is known as `SD`.
 ```
 
 ### Preparing the configuration files
-For each experiment, internal parameters have been extracted to an external configuration JSON file. To modify values for your experiment, please do so here.
-
-Format : `<dataset_name>_<exp_name>_Configuration.json`
-
+For each experiment, internal parameters have been extracted to an external configuration JSON file. To modify values for your experiment, please do so here. For quick reference , check out [sample_exp_configuration]().
 
   | Parameters  | Description | Default Value
   | ----------  | ----------- | ------------- |
@@ -151,7 +148,7 @@ Stage 1 comprises of a multi-task vision transformer for binarisation and scribb
 [
   {"imgPath": "./ICDARTrain/SD_DATA/SD_TRAIN/images/palm_leaf_1.jpg",
    "gdPolygons": [[[x11,y11]..[x1m,y1m].],....[[xn1,yn1]..[xnm,ynm]]],
-   "scribbles": [[[x11,y11]..[x1m,y1m].],....[[xn1,yn1]..[xnm,ynm]]]
+   "gdScribbles": [[[x11,y11]..[x1m,y1m].],....[[xn1,yn1]..[xnm,ynm]]]
   },
   ...
 ]
@@ -171,11 +168,10 @@ python datapreparation.py \
 ```
 
 #### Training Binarisation Branch
-
 For the SeamFormer pipeline , we first start out by training the encoder and binarisation branch (while freezing scribble branch ) . To start the process , you can optionally initialise with [DocENTR's pretrained weights](https://drive.google.com/file/d/1qnIDVA7C5BGInEIBT65OogT0N9ca_E97/view).
 
 ```bash
-python train.py --exp_json_path 'SD_Exp1_Configuration.json' --mode 'train' --train_binary
+python train.py --exp_json_path 'Sample_Exp_Configuration.json' --mode 'train' --train_binary
 ```
 
 After every epoch , we perform validation and we store the train loss , average PSNR and few randomly selected image patches along with their ground truth in `visualisation_folder`. If `enableWandB` is configured to be 'true' , then they automatically get synced to corresponding WandB account's dashboard and will be tracked across experiment runs. Additionally , you can override the parameter by specifying `--wandb` flag while executing the above command.
@@ -184,7 +180,7 @@ After every epoch , we perform validation and we store the train loss , average 
 For training of the binarisation branch , we initialise the branch weights with the prior binary branch weights for better text localisation. 
 
 ```bash
-python train.py --exp_json_path 'SD_Exp1_Configuration.json' --mode 'train' --train_scribble
+python train.py --exp_json_path 'Sample_Exp_Configuration.json' --mode 'train' --train_scribble
 ```
 
 ### Stage-2
@@ -194,6 +190,8 @@ For leveraging Stage II - Scribble conditioned seam generation , we need to supp
 ```bash
 ADD Stage2.ipynb details here [TBD].
 ```
+
+## FineTuning 
 
 ## Model Inference
 ---
