@@ -193,6 +193,23 @@ For leveraging Stage II - Scribble conditioned seam generation , we need to supp
 ADD Stage2.ipynb details here [TBD].
 ```
 
+
+## Downloading Pre-Trained Weights
+Download our existing modelcheckpoints for SeamFormer network via the following commands : 
+```bash
+$ pip install gdown 
+```
+For Indiscapes2 Dataset Checkpoint 
+```bash
+$ gdown 1O_CtJToNUPrQzbMN38FsOJwEdxCDXqHh
+```
+For Balineese/Sundaneese/Khmer Checkpoint 
+```bash
+$ gdown 1nro1UjYRSlMIaYUwkMTrfZzrE_kz0QDF
+```
+
+Note : Override the *pretrained_weights_path* in configuration file accordingly.
+---
 ## FineTuning 
 
 ## Model Inference
@@ -201,33 +218,8 @@ For model inference, we have divided our inference
 ### Usage
 
 
-
 - For Python file 
   - You can either provide json file or image folder path.
-
-## Weights
-Download our existing modelweights for binarisation and scribble branch via the following commands : 
-
-```bash
-$ pip install gdown 
-```
-
-For Indiscapes2 (I2) Checkpoint 
-```bash
-$ gdown 1O_CtJToNUPrQzbMN38FsOJwEdxCDXqHh
-```
-
-For Balineese/Sundaneese/Khmer Checkpoint 
-```bash
-$ gdown 1nro1UjYRSlMIaYUwkMTrfZzrE_kz0QDF
-```
-
-For Pre-Trained DocENTR Checkpoint 
-```bash
-$ gdown 1m6PRw1S6zlzbVII3bjzQR4CzaTaqmbfr/
-```
-
-Note : Override the *pretrained_weights_path* in configuration file accordingly.
 
 ---
 ## Visual Results
