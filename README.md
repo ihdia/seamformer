@@ -230,7 +230,7 @@ $ python3 inference.py --exp_name "Ver1" --input_image_folder './KH_TEST/images/
 ```
 Please note , by default we store all the visualisations - binary image , raw scribble image and scribble overlaid images in the sub-directories of `visualisation_folder` , you can turn it off via '`vis` flag.
 
-# Via Notebook 
+### Via Notebook 
 TBD.
 ---
 
