@@ -122,26 +122,25 @@ Format : `<dataset_name>_<exp_name>_Configuration.json`
 
   | Parameters  | Description | Default Value
   | ----------  | ----------- | ------------- |
-  | dataset_code   | Short name for Dataset   | I2 | 
-  | wid   | WandB experiment Name   | I2_train | 
-  | data_path   | Dataset path   | /data/ | 
-  | model_weights_path   | Path location to store trained weights  | /weights/ | 
+  | dataset_code   | Codename for dataset   | I2 | 
+  | data_path   | Dataset Folder  | /data/ | 
+  | model_weights_path   | Location to store trained weights  | /weights/ | 
   | visualisation_folder   | Folder path to store visualisation results | /vis_results/ | 
-  | learning_rate   | Initial learning rate of optimizer (scheduler applied) | $0.005-0.0009$ | 
-  | weight_logging_interval  | Epoch interval to store weights, i.e 3 -> Store weight every 3 epoch    | $3$ | 
-  | img_size   | ViT input size    | $256 \times 256$| 
-  | patch_size   | ViT patch size   | $8 \times 8$ | 
-  | encoder_layers   | Number of encoder layers in stage-1 multi-task transformer   | $6$ | 
-  | encoder_heads   | Number of heads in MHSA    | $8$ | 
-  | encoder_dims   | Dimension of token in encoder   | $768$ | 
-  | batch_size   | Batch size for training   | $4$ | 
-  | num_epochs   | Total epochs for training   | $30$ | 
+  | learning_rate   | Initial learning rate of optimizer (scheduler applied) | 0.005-0.0009 | 
+  | weight_logging_interval  | Epoch interval to store weights, i.e 3 -> Store weight every 3 epoch    | 3 | 
+  | img_size   | ViT input size    | 256 x 256| 
+  | patch_size   | ViT patch size   | 8 x 8 | 
+  | encoder_layers   | Number of encoder layers in stage-1 multi-task transformer   | 6 | 
+  | encoder_heads   | Number of heads in MHSA    | 8 | 
+  | encoder_dims   | Dimension of token in encoder   | 768 | 
+  | batch_size   | Batch size for training   | 4 | 
+  | num_epochs   | Total epochs for training   | 30 | 
   | mode   | Flag to train or test. Either use "train"/"test"   | "train" | 
   | train_scribble   | Enables scribble branch train  | false| 
   | train_binary  | Enables binary branch train   | true | 
   | pretrained_weights_path   | Path location for pretrained weights(either for scribble/binarisation)   | /weights/ | 
-  | enableWandb  | Enable it if you have wandB configured, else the results are stored locally in  `visualisation_folder`  | false |
-
+  | enableWandb  | Enable it if you have wandB account, else the results are stored locally in  `visualisation_folder`  | false |
+  | wid   | WandB experiment Name (optional)   | I2_V0_Train_lr_0.001 | 
 
 ### Stage-1
 
