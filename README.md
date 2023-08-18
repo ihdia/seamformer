@@ -187,15 +187,16 @@ python train.py --exp_json_path 'Sample_Exp_Configuration.json' --mode 'train' -
 
 ### Stage-2
 ---
-For leveraging Stage II - Scribble conditioned seam generation , we need to supply / provide set of image , binary images and the corresponding scribbles as generated in the previous Stage I. 
+For leveraging Stage II - Scribble conditioned seam generation independantly , we need to provide set of image path , binary image path and the corresponding scribbles as input . If these are avaiable in a JSON file , then the following command can be executed : 
 
 ```bash
-ADD Stage2.ipynb details here [TBD].
+python3 seam_conditioned_scribble_generation.py --jsonPath 'XYZ.json'  --outputjsonPath './OUT_XYZ.json'
 ```
-
+The script will return the predicted text lines and store the results in the configured outputjsonPath.Please note that internal parameters like alpha , beta and gamma are configured to the optimal value. 
 
 ## Downloading Pre-Trained Weights
-Download our existing modelcheckpoints for SeamFormer network via the following commands : 
+Download our existing modelcheckpoints for SeamFormer network via the following commands , additionally you have to override `pretrained_weights_path` in experiment configuration file accordingly.
+
 ```bash
 $ pip install gdown 
 ```
@@ -208,20 +209,25 @@ For Balineese/Sundaneese/Khmer Checkpoint
 $ gdown 1nro1UjYRSlMIaYUwkMTrfZzrE_kz0QDF
 ```
 
-Note : Override the *pretrained_weights_path* in configuration file accordingly.
+## Inference
 ---
-## FineTuning 
+For our pipeline infrence, we have provided two options for our users : via an input json file & input image folder path . In the former case , we expect details of imgPath of the test samples present in the JSON File . Please note , you will have to enable flag `input_json` or `input_folder` accordingly.
 
-## Model Inference
+Case I : Via JSON File 
+```bash
+$ python3 inference.py --exp_name "Ver0" --input_image_json 'KH_TEST.json' --output_image_folder './KHMER_DATA' --model_weights_path 'BKS.pt' --input_json 
+```
+Case I : Via Image Folder Path 
+```bash
+$ python3 inference.py --exp_name "Ver1" --input_image_folder './KH_TEST/images/' --output_image_folder './KHMER_DATA' --model_weights_path 'BKS.pt' --input_folder
+```
+Please note , by default we store all the visualisations - binary image , raw scribble image and scribble overlaid images in the sub-directories of `visualisation_folder` , you can turn it off via '`vis` flag.
+
 ---
-For model inference, we have divided our inference 
-### Usage
 
+## FineTuning : Custom Dataset 
+TBD - Assigned to HWaseem
 
-- For Python file 
-  - You can either provide json file or image folder path.
-
----
 ## Visual Results
 Attached is a collated diagram , starting top (clockwise ) from Bhoomi , Penn-In-Hand (PIH) , Khmer Palm Leaf Manuscript and Jain Manuscript . Of particular significance is the intrinsic precision exhibited by the predicted polygons depicted within, handling the presence of considerable image degradation, a complex multi-page layout, and an elevated aspect ratio, etc. 
 

@@ -33,6 +33,17 @@ class NumpyEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
+import argparse 
+import json
+# Argument Parser 
+def addArgs():
+    # Required to override these params
+    parser = argparse.ArgumentParser(description="SeamFormer:Stage-II Independant Mode")
+    parser.add_argument("--jsonPath",type=str, help="JSON File Name ",required=True,default=None)
+    parser.add_argument("--outputjsonPath",type=str, help="Output JSON File Name ",required=True,default=None)
+
+
+
 # Config
 isClosed = True
 thickness = 2
@@ -510,31 +521,6 @@ def generateSeams(imgSource,binImage,scribbleList, showImg=False,save=True,omega
     gap =  getInterlineGap(scribbleList)
     head = np.int(gap/2)
 
-    # New 
-    # gap = getInterlineGap(scribbleList)
-    # head = np.int32(gap/2)
-
-    # dists=[]
-    # verdists=[]
-    # for i in range(1,len(initPoints)):
-    #   verdists.append(abs(initPoints[i][1]-initPoints[i-1][1]))
-
-    # dists = copy.deepcopy(verdists)
-    # dists = array(dists, dtype=np.int32)
-    # meanDist = np.mean(dists)
-    # stdDist = np.std(dists)
-    # sum=0
-    # count=0
-
-    # for i in range(len(dists)):
-    #   if (abs(dists[i]-meanDist)<=stdDist):
-    #     sum+=dists[i]
-    #     # sum+=verdists[i]
-    #     count+=1
-
-    # gap=int(np.min(dists)+omega*(sum/count))
-    # head=int(gap/2)
-
     regions=[]
     regions2=[]
     scribbleList = sorted(scribbleList, key=lambda k: int(k is not None )*k[0][1])
@@ -730,3 +716,31 @@ def imageTask(img,bimg,scribbes):
     else:
       print('StageII:Inputs are invalid,recheck!Exiting!')
       return [] 
+    
+def stage2(json_data):
+    output_data=[]
+    for inst in json_data:
+        image_path = json_data["image_path"]
+        bin_image_path = json_data["bin_image_path"]
+        scribbles = json_data["scribbles"]
+        img = cv2.imread(image_path)
+        bimg = cv2.imread(bin_image_path)
+        preds_ = imageTask(img, bimg, scribbles)
+        output_data.append({'image_path':image_path,'predPolygons':preds_})
+    return output_data
+
+if __name__ == "__main__":
+    args = addArgs()
+    if args.jsonPath is not None and os.path.exists(args.jsonPath):
+            # Read the json file 
+            json_data = None
+            with open(args.jsonPath) as f:
+                json_data = json.load(f)
+            f.close()
+            # Send it to stage2 function and dump it in the json location 
+            if args.outputjsonPath is not None : 
+                out_file = open(args.outputjsonPath, "w")
+                data_final = stage2(json_data)
+                json.dump(data_final, out_file)
+                out_file.close()
+    print('~Completed!')
