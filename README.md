@@ -43,14 +43,16 @@
 ---
 1. [Getting Started](#getting-started)
 2. [Model Overview](#model)
-3. [Model Inference](#model)
+3. [Model Inference](#model-inference)
 4. [Training](#model)
-    - [Data Preparation](#Data-Preparation)
+    - [Polygon to Scribble](#poly-to-scr)
+    - [Training Data Preparation](#Data-Preparation)
     - [Configuration](#Preparing-the-configuration-file)
     - [Stage-1](#stage-1)
     - [Stage-2](#stage-2)
 5. [Finetuning](#finetuning) 
-6. [Contact](#contact)
+6. [Dataset Sources](#dataset)
+7. [Contact](#contact)
 
 ## Getting Started
 ---
@@ -115,7 +117,7 @@ For example , Sundaneese Manuscripts is known as `SD`.
 ```
 
 ### Preparing the configuration files
-For each experiment, internal parameters have been extracted to an external configuration JSON file. To modify values for your experiment, please do so here. For quick reference , check out [sample_exp_configuration]().
+For each experiment, internal parameters have been extracted to an external configuration JSON file. To modify values for your experiment, please do so here. For quick reference , check out [Sample_Exp_Configuration](https://github.com/ihdia/seamformer/blob/main/Sample_Exp_Configuration.json).
 
   | Parameters  | Description | Default Value
   | ----------  | ----------- | ------------- |
@@ -147,15 +149,15 @@ Stage 1 comprises of a multi-task vision transformer for binarisation and scribb
 ```bash
 [
   {"imgPath": "./ICDARTrain/SD_DATA/SD_TRAIN/images/palm_leaf_1.jpg",
+   "imgDims": [H,W],
    "gdPolygons": [[[x11,y11]..[x1m,y1m].],....[[xn1,yn1]..[xnm,ynm]]],
-   "gdScribbles": [[[x11,y11]..[x1m,y1m].],....[[xn1,yn1]..[xnm,ynm]]]
   },
   ...
 ]
 ```
-#### Data Preparation : Binarisation & Scribble Generation
+#### Training Data Preparation : Binarisation & Scribble Generation
 
-The Stage I architecture of the SeamFormer pipeline is dependent on image patches (default : 256 x 256 pixels). Therefore, by providing the path folder and relevant parameters, the following script arranges the patch data within their corresponding folders. 
+The Stage I architecture of the SeamFormer pipeline is dependent on image patches (default : 256 x 256 pixels). Therefore, by providing the path folder and relevant parameters, the following script arranges the patch data within their corresponding folders. For the provided polygon/box annotations within `datapreparation.py`  we have generate the scribbles.
 
 *Note* : The argument `binaryFolderPath` is optional , and in case if your dataset does not have a binarisation ground truth , it will rely Sauvola-Niblack technique to create the binarisation images.
 
@@ -195,15 +197,37 @@ ADD Stage2.ipynb details here [TBD].
 
 ## Model Inference
 ---
+For model inference, we have divided our inference 
 ### Usage
-- Access via [Colab file]() or [Python file]().
+
+
+
 - For Python file 
   - You can either provide json file or image folder path.
 
 ## Weights
+Download our existing modelweights for binarisation and scribble branch via the following commands : 
 
-[TBD ,Will add link here ! ]
-Download Pretrained weights for binarisation from this [drive link]() and change the *pretrained_weights_path* in the json files in `configs` directory accordingly.
+```bash
+$ pip install gdown 
+```
+
+For Indiscapes2 (I2) Checkpoint 
+```bash
+$ gdown 1O_CtJToNUPrQzbMN38FsOJwEdxCDXqHh
+```
+
+For Balineese/Sundaneese/Khmer Checkpoint 
+```bash
+$ gdown 1nro1UjYRSlMIaYUwkMTrfZzrE_kz0QDF
+```
+
+For Pre-Trained DocENTR Checkpoint 
+```bash
+$ gdown 1m6PRw1S6zlzbVII3bjzQR4CzaTaqmbfr/
+```
+
+Note : Override the *pretrained_weights_path* in configuration file accordingly.
 
 ---
 ## Visual Results
