@@ -216,7 +216,7 @@ $ bash downloadWeights.sh
 
 ## Inference : 
 
-# Via Code 
+### Via Code 
 ---
 For our pipeline infrence, we have provided two options for our users : via an input json file & input image folder path . In the former case , we expect details of imgPath of the test samples present in the JSON File . Please note , you will have to enable flag `input_json` or `input_folder` accordingly.
 
@@ -230,7 +230,7 @@ $ python3 inference.py --exp_name "Ver1" --input_image_folder './KH_TEST/images/
 ```
 Please note , by default we store all the visualisations - binary image , raw scribble image and scribble overlaid images in the sub-directories of `visualisation_folder` , you can turn it off via '`vis` flag.
 
-# Via Notebook 
+### Via Notebook 
 TBD.
 ---
 
