@@ -235,7 +235,25 @@ TBD.
 ---
 
 ## FineTuning : Custom Dataset 
-TBD - Assigned to HWaseem
+
+- Parameters that are to carefully configured.
+  - In `datapreparation.py`
+    - THICKNESS - This parameter defines the thickness of scribble ground truth. Reduce this as needed if the predicted scribbles are so thick so that two scribbles merge into one.
+    - OVERLAP - If you think you have fewer number of palm-leaf images, increase overlap to 0.5 or 0.75 so that you get more training patches.
+
+- Choose learning rate and a finetuning strategy (refer topic 'When and how to fine-tune' in [CS231n Notes](https://cs231n.github.io/transfer-learning/)) based on available data at hand and its closeness to pretrained data. 
+  - You can choose to unfreeze decoder(for binariser/scribble branch) alone and train decoder alone. 
+  - Or you can choose to unfreeze both decoder and encoder for binarisation, but it is preferred to always freeze encoder during scribble generation and only finetune its decoder.
+  - Freezing and unfreezing parameters can be configured in `builModel()` in `train.py` using the command `param.requires_grad = False`  appropriately
+    - By default 
+      - During Binarisation: Scribble branch's decoder is freezed
+      - During Scribble Generation: Binary branch's decoder and also the encoder is freezed.
+
+- Configuration of GPU that we used and typical training time.
+  - Single *NVIDIA GeForce GTX 1080 Ti* GPU, 12 GB of GDDR5X VRAM
+  - If you use a setup with say around 1000 train images and 0% overlap, it would take ~10 hours. Susceptible to image resolution and overlap percentage, ofcourse.
+
+- Refer sample training setup that we used for Sundanese Dataset [here](Sundanese Experiment /README.md).
 
 ## Visual Results
 Attached is a collated diagram , starting top (clockwise ) from Bhoomi , Penn-In-Hand (PIH) , Khmer Palm Leaf Manuscript and Jain Manuscript . Of particular significance is the intrinsic precision exhibited by the predicted polygons depicted within, handling the presence of considerable image degradation, a complex multi-page layout, and an elevated aspect ratio, etc. 
