@@ -1,11 +1,8 @@
 <div align="center">
 
 <samp>
-
 <h1> SeamFormer </h1>
-
 <h2> High Precision Text Line Segmentation for Handwritten Documents </h2>
-
 </samp>
 
 **_To appear at [ICDAR 2023](https://icdar2023.org/)_**
@@ -101,7 +98,7 @@ The SeamFormer is split into two parts:
 ### Preparing the Data
 To train the model dataset should be in a folder following the hierarchy: 
 In case of references to datacode , it is simply a codeword for dataset name .
-For example , Sundaneese Manuscripts is known as `SD`. 
+For example , Sundanese Manuscripts is known as `SD`. 
 ```
 ├── DATASET
 │   ├── <DATASET>Train
@@ -203,7 +200,7 @@ For Indiscapes2 Dataset Checkpoint
 ```bash
 $ gdown 1O_CtJToNUPrQzbMN38FsOJwEdxCDXqHh
 ```
-For Balineese/Sundaneese/Khmer Checkpoint 
+For Balinese/Sundanese/Khmer Checkpoint 
 ```bash
 $ gdown 1nro1UjYRSlMIaYUwkMTrfZzrE_kz0QDF
 ```
