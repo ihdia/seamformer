@@ -230,29 +230,23 @@ $ python3 inference.py --exp_name "Ver1" --input_image_folder './KH_TEST/images/
 ```
 Please note , by default we store all the visualisations - binary image , raw scribble image and scribble overlaid images in the sub-directories of `visualisation_folder` , you can turn it off via '`vis` flag.
 
-### Via Notebook 
-TBD.
----
-
 ## FineTuning : Custom Dataset 
 
+For leveraging SeamFormer for your custom dataset , these points can be useful in deciding the parameters and model checkpoint
+that would be optimal for you . 
 - Parameters that are to carefully configured.
   - In `datapreparation.py`
     - THICKNESS - This parameter defines the thickness of scribble ground truth. Reduce this as needed if the predicted scribbles are so thick so that two scribbles merge into one.
-    - OVERLAP - If you think you have fewer number of palm-leaf images, increase overlap to 0.5 or 0.75 so that you get more training patches.
-
+    - OVERLAP - If you think you have fewer number of images in your dataset , increase overlap to 0.50 or 0.75 so that you get more training patches.
 - Choose learning rate and a finetuning strategy (refer topic 'When and how to fine-tune' in [CS231n Notes](https://cs231n.github.io/transfer-learning/)) based on available data at hand and its closeness to pretrained data. 
-  - You can choose to unfreeze decoder(for binariser/scribble branch) alone and train decoder alone. 
-  - Or you can choose to unfreeze both decoder and encoder for binarisation, but it is preferred to always freeze encoder during scribble generation and only finetune its decoder.
+  - You can choose to unfreeze decoder(for binariser/scribble branch) alone and train decoder alone. Additionally , you can choose to unfreeze few layers of the decoders as well . Or you can choose to unfreeze both decoder and encoder for binarisation, but it is preferred to always freeze encoder during scribble generation and only finetune its decoder.
   - Freezing and unfreezing parameters can be configured in `builModel()` in `train.py` using the command `param.requires_grad = False`  appropriately
     - By default 
-      - During Binarisation: Scribble branch's decoder is freezed
+      - During Binarisation: Scribble decoder branch's weights is freezed
       - During Scribble Generation: Binary branch's decoder and also the encoder is freezed.
-
-- Configuration of GPU that we used and typical training time.
-  - Single *NVIDIA GeForce GTX 1080 Ti* GPU, 12 GB of GDDR5X VRAM
-  - If you use a setup with say around 1000 train images and 0% overlap, it would take ~10 hours. Susceptible to image resolution and overlap percentage, ofcourse.
-
+- Configuration of GPU that we used and typical training time to achieve these results : 
+  - 1 *NVIDIA GeForce GTX 1080 Ti* GPU, 12 GB of GDDR5X VRAM , 20 CPUs 
+  - Timing Analysis : If you use a setup with say around 1000 train images and 0% overlap, it would take ~10 hours. Subjected to image resolution,overlap percentage and compute ofcourse.
 - Refer sample training setup that we used for Sundanese Dataset [here](Sundanese Experiment /README.md).
 
 ## Visual Results
