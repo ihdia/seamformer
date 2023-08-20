@@ -242,8 +242,7 @@ that would be optimal for you .
       - During Binarisation: Scribble decoder branch's weights is freezed
       - During Scribble Generation: Binary branch's decoder and also the encoder is freezed.
 - Configuration of GPU that we used and typical training time to achieve these results : 
-  - 1 *NVIDIA GeForce GTX 1080 Ti* GPU, 12 GB of GDDR5X VRAM , 20 CPUs 
-  - Timing Analysis : If you use a setup with say around 1000 train images and 0% overlap, it would take ~10 hours. Subjected to image resolution,overlap percentage and compute ofcourse.
+  - 1 *NVIDIA GeForce GTX 1080 Ti* GPU, 12 GB of GDDR5X VRAM , 20 CPUs.
 - Refer sample training setup that we used for Sundanese Dataset [here](Sundanese Experiment /README.md).
 
 ## Visual Results
