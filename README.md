@@ -39,7 +39,7 @@
 ## Table of contents
 ---
 1. [Getting Started](#getting-started)
-2. [Model Overview](#model)
+2. [Model Overview](#model-overview)
 3. [Model Inference](#model-inference)
 4. [Training](#model)
     - [Polygon to Scribble](#poly-to-scr)
@@ -48,7 +48,7 @@
     - [Stage-1](#stage-1)
     - [Stage-2](#stage-2)
 5. [Finetuning](#finetuning) 
-6. [Dataset Sources](#dataset)
+6. [Citation](#citation)
 7. [Contact](#contact)
 
 ## Getting Started
@@ -61,7 +61,7 @@ conda activate seamformer
 pip install -r requirements.txt
 ```
 
-## Model 
+## Model Overview
 ---
 Overall Two-stage Architecture: Stage-1 generated binarised output with just text content along with a scribble map. Stage-2 uses these two intermediate outputs to generate Seams and finally the required text-line segmentation. 
 
@@ -98,7 +98,7 @@ The SeamFormer is split into two parts:
 ### Preparing the Data
 To train the model dataset should be in a folder following the hierarchy: 
 In case of references to datacode , it is simply a codeword for dataset name .
-For example , Sundanese Manuscripts is known as `SD`. 
+For example , Sundanese Manuscripts in short form is known as `SD`. 
 ```
 ├── DATASET
 │   ├── <DATASET>Train
@@ -141,15 +141,21 @@ For each experiment, internal parameters have been extracted to an external conf
 ### Stage-1
 
 Stage 1 comprises of a multi-task vision transformer for binarisation and scribble generation.
+You can refer to our sample Sundanese dataset JSON [here](https://drive.google.com/file/d/1bYqKGPeqZ0XpFJS6d9X8rKk078ESTUHn/view?usp=sharing).
 
 #### Sample train/test.json file structure
 ```bash
 [
   {"imgPath": "./ICDARTrain/SD_DATA/SD_TRAIN/images/palm_leaf_1.jpg",
-   "imgDims": [H,W],
-   "gdPolygons": [[[x11,y11]..[x1m,y1m].],....[[xn1,yn1]..[xnm,ynm]]],
+   "imgDims": [2000,1000],
+   "gdPolygons": [[[11,20]..[13,25],....[[101,111]..[1121,2111]]],
   },
   ...
+  {"imgPath": "./ICDARTrain/SD_DATA/SD_TRAIN/images/palm_leaf_2.jpg",
+   "imgDims": [1111,7777],
+   "gdPolygons": [[[77,21]..[11,21],....[[222,233]..[1121,1111]]],
+   ...
+  },
 ]
 ```
 #### Training Data Preparation : Binarisation & Scribble Generation
@@ -212,8 +218,6 @@ $ bash downloadWeights.sh
 ```
 
 ## Inference : 
-
-### Via Code 
 ---
 For our pipeline infrence, we have provided two options for our users : via an input json file & input image folder path . In the former case , we expect details of imgPath of the test samples present in the JSON File . Please note , you will have to enable flag `input_json` or `input_folder` accordingly.
 
