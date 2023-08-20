@@ -1,9 +1,9 @@
 ## Training Setup for Sundanese Dataset
 
 ### Sample images
-![Sample sundanese 1](../readme_imgs/CB-3-18-90-7.jpg)
+![Sample sundanese 1](assets/CB-3-18-90-7.jpg)
 
-![Sample sundanese 2](../readme_imgs/CB-3-18-90-12.jpg)
+![Sample sundanese 2](assets/CB-3-18-90-12.jpg)
 
 ### Dataset
 ```
@@ -14,11 +14,10 @@ mv SD.zip data/
 unzip data/SD.zip -d data/SD/ 
 rm -rf data/SD.zip
 ```
-
-or 
-
+OR
 Download directly from [here](https://drive.google.com/file/d/1bYqKGPeqZ0XpFJS6d9X8rKk078ESTUHn/view?usp=sharing). Follow the below data hierarchy after unzipping it.
 
+This is the final datafolder heirarchy : 
 ```
 data
 ├── SD
@@ -34,7 +33,7 @@ data
 ```
 
 ### Experiment Json Configuration
-- Refer: [SD_exp1_Configuration.json](../SD_exp1_Configuration.json)
+- Refer: [SD_exp1_Configuration.json](SD_exp1_Configuration.json)
 
 ### Data Preparation for training
 - Train Data
