@@ -1,0 +1,23 @@
+{   
+    "dataset_code":"SD",
+    "wid" : "", 
+    "data_path":"data/", 
+    "model_weights_path":"data/",
+    "visualisation_folder":"viz_output/",
+    "learning_rate":0.0008,
+    "weight_logging_interval":3,
+    "imgsize":256,
+    "patchsize":8,
+    "encoder_layers":6,
+    "encoder_heads":8,
+    "encoder_dims":768,
+    "batch_size":8,
+    "num_epochs":1,
+    "mode":"train",
+    "train_scribble":true,
+    "train_binary":false,
+    "pretrained_weights_path": "",
+    "enabledWandb":false 
+}
+
+
