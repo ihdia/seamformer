@@ -1,6 +1,8 @@
 #!/bin/bash
 
-cd ~/
+mkdir -p ./seamformer/weightsFolder
+
+cd ./seamformer/weightsFolder
 
 echo "Downloading Indiscapes Dataset Weights !"
 !gdown 1O_CtJToNUPrQzbMN38FsOJwEdxCDXqHh

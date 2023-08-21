@@ -82,7 +82,8 @@ def imvisualize(settings,imdeg, imgt, impred, ind, epoch=0,threshold=0.4):
         base_dir = os.path.join(settings['visualisation_folder'],'epoch_{}'.format(epoch))
         epoch=str(epoch)
         os.makedirs(base_dir,exist_ok=True)
-        out = merge_images_horizontally(imdeg[:,:,0],imgt,impred)
+        imdeg_ = imdeg[:,:,0].reshape(*imdeg.shape[:-1], 1)
+        out = merge_images_horizontally(imdeg_,imgt,impred)
         cv2.imwrite(os.path.join(base_dir,str(ind)+'_combined.png'),out)
 
     return imdeg,imgt,impred
@@ -138,6 +139,8 @@ def reconstruct(pred_pixel_values,patch_size,target_shape,image_size):
     output_image[np.where( output_image>1)] = 1
     output_image[np.where( output_image<0)] = 0
     return output_image
+
+
 
 
 
@@ -249,3 +252,89 @@ def horizontal_dilation(image, kernel_width=5,iterations=1):
     # Perform dilation
     dilated_image = cv2.dilate(image, kernel, iterations)
     return dilated_image
+
+
+'''
+Generates Scribble given a polygon inputs and img dimensions (pmask)
+'''
+from scipy.interpolate import interp1d
+
+def uniformly_sampled_line(points):
+    num_points = min(len(points),250)
+    # Separate x and y coordinates from the given points
+    x_coords, y_coords = zip(*points)
+
+    # Calculate the cumulative distance along the original line
+    distances = np.cumsum(np.sqrt(np.diff(x_coords) ** 2 + np.diff(y_coords) ** 2))
+    distances = np.insert(distances, 0, 0)  # Add the initial point (0, 0) distance
+
+    # Create a linear interpolation function for x and y coordinates
+    interpolate_x = interp1d(distances, x_coords, kind='linear')
+    interpolate_y = interp1d(distances, y_coords, kind='linear')
+
+    # Calculate new uniformly spaced distances
+    new_distances = np.linspace(0, distances[-1], num_points)
+
+    # Interpolate new x and y coordinates using the uniformly spaced distances
+    new_x_coords = interpolate_x(new_distances)
+    new_y_coords = interpolate_y(new_distances)
+
+    # Create a list of new points
+    new_points = [[np.int32(new_x_coords[i]), np.int32(new_y_coords[i])] for i in range(num_points)]
+
+    return new_points
+
+def find_corner_points(points):
+    if not points:
+        return None, None
+    # Sort the points based on their x-coordinate
+    sorted_points = sorted(points, key=lambda point: point[0])
+    leftmost_point = list(sorted_points[0])
+    rightmost_point = list(sorted_points[-1])
+    return leftmost_point, rightmost_point
+
+def generateScribble(H,W,polygon):
+    # Generate Canvas
+    canvas = np.zeros((H,W))
+    # Mark the polygon on the canvas
+    leftmost_point, rightmost_point = find_corner_points(polygon)
+    poly_arr = np.asarray(polygon,dtype=np.int32).reshape((-1,1,2))
+    canvas = cv2.fillPoly(canvas,[poly_arr],(255,255,255))
+    # Scribble generation
+    skeleton = pcv.morphology.skeletonize(canvas)
+    pruned_skeleton,_,segment_objects = pcv.morphology.prune(skel_img=skeleton,size=100)
+    scribble = np.asarray(segment_objects[0],dtype=np.int32).reshape((-1,2))
+    scribble=scribble.tolist()
+    scribble = uniformly_sampled_line(scribble)
+    if leftmost_point is not None and rightmost_point is not None :
+      scribble.append(leftmost_point)
+      scribble.append(rightmost_point)
+      scribble = sorted(scribble, key=lambda point: point[0])
+    return scribble
+
+# New helper function
+def deformat(listofpoints):
+    # Input : [[[x1,y1],[[x2,y2]],[[x3,y3]]....]
+    # Output : [ [x1,y1], [x2,y2],[x3,y3]....]
+    output = [ pt[0].tolist() for pt in listofpoints ]
+    return output
+
+# Extracts final contours with a specific area threshold 
+def cleanImageFindContours(patch,threshold):
+  try:
+    patch = np.uint8(patch)
+    patch = cv2.cvtColor(patch,cv2.COLOR_BGR2GRAY)
+    contours, hierarchy = cv2.findContours(patch,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    if len(contours)<1:
+      print('No contours in the raw image!')
+      return patch
+    # Else sort them
+    cntsSorted = sorted(contours, key=lambda x: cv2.contourArea(x),reverse=True)
+    areaList = [cv2.contourArea(c) for c in cntsSorted]
+    maxArea = max(areaList)
+    sortedContours = [deformat(c) for c in cntsSorted if cv2.contourArea(c)>np.int32(threshold*maxArea)]
+    return sortedContours
+
+  except Exception as exp :
+    print('Error in figuring out the clean contours : {} '.format(exp))
+    return None

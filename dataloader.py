@@ -83,6 +83,8 @@ class ScribbleDataset(D.Dataset):
         deg_img = cv2.imread(imageURL)
         gt_img = cv2.imread(gtURL)
 
+        # Note : Inverting pixel intensities such that text(foreground) is white and background is black. 
+        # Useful for weighted BCE loss
         if self.config['train_binary']:
             gt_img = 255 - cv2.imread(gtURL)
 

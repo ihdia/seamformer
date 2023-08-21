@@ -23,7 +23,7 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 # File Imports 
 from seam_conditioned_scribble_generation import *
-from netutils import *
+from utils import *
 from network import *
 
 # Argument Parser 
@@ -32,7 +32,7 @@ def addArgs():
     parser = argparse.ArgumentParser(description="SeamFormer:Inference")
     parser.add_argument("--exp_name",type=str, help="Unique Experiment Name",required=True,default=None)
     parser.add_argument("--input_image_folder",type=str, help="Input Folder Path",default=None)
-    parser.add_argument("--input_image_json",type=str, help="Input JSON Path",required=True,default=None)
+    parser.add_argument("--input_image_json",type=str, help="Input JSON Path",required=False,default=None)
     parser.add_argument("--output_image_folder",type=str, help="Output Folder Path for storing bin & scr results",required=True,default=None)
     parser.add_argument("--model_weights_path",type=str,help="Model Checkpoint Weights",default=None)
     parser.add_argument("--input_json", action="store_true", help="Inference Based on JSON File ")
@@ -168,7 +168,7 @@ def postProcess(scribbleImage,binaryImage,binaryThreshold=50,rectangularKernel=5
     bin_ = binaryImage.astype(np.uint8)
     scr = scribbleImage.astype(np.uint8)
     # print('PP @ BIN SHAPE : {} SCRIBBLE SHAPE : {}'.format(scribbleImage.shape,binaryImage.shape))
-    # bin_ = cv2.cvtColor(bin_,cv2.COLOR_BGR2GRAY)
+    bin_ = cv2.cvtColor(bin_,cv2.COLOR_BGR2GRAY)
     H,W = bin_.shape
 
     # Threshold it
@@ -191,7 +191,7 @@ def postProcess(scribbleImage,binaryImage,binaryThreshold=50,rectangularKernel=5
     scr_ = horizontal_dilation(scr_,rectangularKernel,3) # KH - 50 ,2 
    
     # Extract the final contours 
-    contours = cleanImageFindContours(scr_,threshold = 0.1)
+    contours = cleanImageFindContours(scr_,threshold = 0.15)
     # Combine the hulls that are on the same horizontal level 
     new_hulls = combine_hulls_on_same_level(contours)
     # Scribble Generation
@@ -203,7 +203,6 @@ def postProcess(scribbleImage,binaryImage,binaryThreshold=50,rectangularKernel=5
             scr_ = np.asarray(hull).reshape((-1,2)).tolist()
             predictedScribbles.append(scr_)
     return predictedScribbles
-
 
 '''
 Performs Binary & Scribble 
@@ -281,7 +280,7 @@ def Inference(args):
     
     # Case II : Image Folder 
     if  args['input_image_folder'] is not None and args['input_image_json'] is None:
-        files_ = os.path.listdir(args['input_image_folder'])
+        files_ = os.listdir(args['input_image_folder'])
         if len(files_)>0:
             for f in files_ : 
                 try:

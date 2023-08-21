@@ -1,5 +1,6 @@
 {   
     "dataset_code":"XYZ",
+    "expName":"v0",
     "data_path":"./data_XYZ",
     "pretrained_weights_path":"./SeamFormer/xyz.pt",
     "model_weights_path":"./weights_XYZ/",
@@ -21,6 +22,8 @@
     "train_scribble":true,
     "train_binary":false,
     "vis_results":"True",
+    "print_interval":50,
+    "vis_interval":100,
     "enabledWandb":false,
     "wid" : "BKS_E3_V3"
 }

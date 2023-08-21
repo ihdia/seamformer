@@ -18,9 +18,9 @@ import argparse
 
 # File Imports 
 from dataloader import *
-import utils as utils
+from utils import *
 from network import SeamFormer 
-from netutils import imvisualize, computePSNR
+from utils import imvisualize, computePSNR
 
 # Global Settings 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
@@ -121,12 +121,12 @@ def validateNetwork(epoch,network,settings,validloader,vis=True):
                 # Forward Pass - strain 
                 if settings['train_binary']:
                     loss,gt_patches,pred_pixel_values= network(inputs,gt_bin_img=outputs,gt_scr_img=None,criterion=loss_criterion,strain=False,btrain=True,mode='train')
-                    psnr += computePSNR(gt_patches, rec_images, PIXEL_MAX=1.0) 
+                    psnr += computePSNR(gt_patches,pred_pixel_values,PIXEL_MAX=1.0) 
 
                 # Reconstruct 
                 rec_images = rearrange(pred_pixel_values, 'b (h w) (p1 p2 c) -> b c (h p1) (w p2)',p1 = patch_size, p2 = patch_size, h=image_size//patch_size)
                 # Visualisation 
-                if bindex%1000==0 and vis is True:
+                if bindex%settings['vis_interval']==0 and vis is True:
                     imvisualize(settings,inputs.cpu(), outputs.cpu(),rec_images.cpu(),bindex,epoch)
 
                 losses += loss.item()
@@ -137,7 +137,7 @@ def validateNetwork(epoch,network,settings,validloader,vis=True):
     validationLoss = losses / len(validloader)
 
     if settings['train_scribble']:
-        return validationLoss
+        return validationLoss,None
     if settings['train_binary']:
         netPSNR = psnr/len(validloader)
         return validationLoss, netPSNR  
@@ -177,7 +177,7 @@ def trainNetwork(settings,min_samples=100):
     best_epoch = -1 
 
     # We split the samples into batchSize , so undo it for obtaining the total samples
-    train_samples = len(trainloader)*settings['batchsize']
+    train_samples = len(trainloader)*settings['batch_size']
 
     # Iterating epochs...
     for epoch in range(0,settings['num_epochs']):
@@ -212,7 +212,7 @@ def trainNetwork(settings,min_samples=100):
                 optimizer.step()
                 running_loss += loss.item()
 
-                if iters%500==0:
+                if iters%settings['print_interval']==0:
                     print('Epoch : {} Step : {} Loss :{}'.format(epoch,iters,float(running_loss/iters)))
 
             except Exception as e:
@@ -223,9 +223,12 @@ def trainNetwork(settings,min_samples=100):
         scheduler.step()
         lr_ = optimizer.param_groups[0]['lr']
         # Losses 
-        trainLoss = running_loss/train_samples
-        validationLoss = validateNetwork(epoch,network,settings,validloader,vis=True)
-        print('Epoch : {} Train Loss : {} Validation Loss @ {} is {}'.format(str(epoch),str(trainLoss),str(validationLoss)))
+        trainLoss = running_loss/(train_samples+1)
+        validationLoss, psnr = validateNetwork(epoch,network,settings,validloader,vis=True)
+        if psnr is None:
+             print('Epoch : {} Train Loss : {} Validation Loss is {}'.format(str(epoch),str(trainLoss),str(validationLoss)))
+        else:
+             print('Epoch : {} Train Loss : {} Validation Loss is {} and PSNR is {}'.format(str(epoch),str(trainLoss),str(validationLoss), str(psnr)))
 
         # Logging ! 
         if settings['enabledWandB']:
@@ -234,8 +237,8 @@ def trainNetwork(settings,min_samples=100):
             wandb.log({'epoch':epoch,'lr':get_lr(optimizer)})
             
         # Saving Model Weights ( Periodically & Best Model Weights )
-        if epoch%(epoch['weight_logging_interval'])==0:
-            print('Network Weights @ {} saved !!'.format(epoch))
+        if epoch%(settings['weight_logging_interval'])==0:
+            print('Network Weights @ epoch {} saved !!'.format(epoch))
             torch.save(network.state_dict(),os.path.join(settings['model_weights_path'],'network-{}-{}.pt'.format(settings['expName'],epoch)))
         else:
             if validationLoss<best_loss:
@@ -251,7 +254,7 @@ if __name__ == "__main__":
     # Overriding parameters
     parser.add_argument("--mode", type=str,default=None,help='train/test')
     parser.add_argument("--train_scribble", action="store_true", help="Enables Scribble Training")
-    parser.add_argument("--train_scribble", action="store_true", help="Enables Binary Training") 
+    parser.add_argument("--train_binary", action="store_true", help="Enables Binary Training") 
     # To Enable WandB 
     parser.add_argument("--wandb", action="store_true", help="Enables Automatic WandB Logging")
 

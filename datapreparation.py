@@ -22,7 +22,7 @@ import itertools
 import numpy as np 
 from empatches import EMPatches
 from skimage.filters import (threshold_otsu, threshold_niblack,threshold_sauvola)
-from netutils import generateScribble
+from utils import generateScribble
 
 #File Import 
 sys.path.append('..') 

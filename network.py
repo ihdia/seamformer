@@ -75,7 +75,6 @@ class SeamFormer(nn.Module):
                 # calculate the loss with gt
                 if gt_bin_img is not None:
                     gt_bin_patches = self.to_patch(gt_bin_img)
-                ## ---  Weighted BCE Loss ---
                 binaryloss = criterion(pred_pixel_values_bin,gt_bin_patches)
                 pt = torch.exp(-binaryloss) 
                 binaryloss = ((1-pt)**2) * binaryloss 

@@ -101,11 +101,11 @@ In case of references to datacode , it is simply a codeword for dataset name .
 For example , Sundanese Manuscripts in short form is known as `SD`. 
 ```
 ├── DATASET
-│   ├── <DATASET>Train
+│   ├── <DATASET>_Train
 │   │   ├── images/
 │   │   ├── binaryImages/
 │   │   ├── <DATASET>_TRAIN.json
-│   ├── <Dataset>Test
+│   ├── <Dataset>_Test
 │   │   ├── images/
 │   │   ├── binaryImages/
 │   │   ├── <DATASET>_TEST.json
@@ -148,12 +148,12 @@ You can refer to our sample Sundanese dataset JSON [here](https://drive.google.c
 [
   {"imgPath": "./ICDARTrain/SD_DATA/SD_TRAIN/images/palm_leaf_1.jpg",
    "imgDims": [2000,1000],
-   "gdPolygons": [[[11,20]..[13,25],....[[101,111]..[1121,2111]]],
+   "gdPolygons": [[11,20]..[13,25],....[[101,111]..[1121,2111]]],
   },
   ...
   {"imgPath": "./ICDARTrain/SD_DATA/SD_TRAIN/images/palm_leaf_2.jpg",
    "imgDims": [1111,7777],
-   "gdPolygons": [[[77,21]..[11,21],....[[222,233]..[1121,1111]]],
+   "gdPolygons": [[77,21]..[11,21],....[[222,233]..[1121,1111]]],
    ...
   },
 ]
@@ -200,21 +200,21 @@ The script will return the predicted text lines and store the results in the con
 ## Downloading Pre-Trained Weights
 Download our existing modelcheckpoints for SeamFormer network via the following commands , additionally you have to override `pretrained_weights_path` in experiment configuration file accordingly.
 ```bash
-$ pip install gdown 
+pip install gdown 
 ```
 For Indiscapes2 Dataset Checkpoint 
 ```bash
-$ gdown 1O_CtJToNUPrQzbMN38FsOJwEdxCDXqHh
+gdown 1O_CtJToNUPrQzbMN38FsOJwEdxCDXqHh
 ```
 For Balinese/Sundanese/Khmer Checkpoint 
 ```bash
-$ gdown 1nro1UjYRSlMIaYUwkMTrfZzrE_kz0QDF
+gdown 1nro1UjYRSlMIaYUwkMTrfZzrE_kz0QDF
 ```
 Alternatively , you can also run the `downloadWeights.sh` file for one shot download of all the various dataset 
 pretrained weights . Please configure the destination path inside the bash script.
 
 ```bash
-$ bash downloadWeights.sh
+bash downloadWeights.sh
 ```
 
 ## Inference : 
@@ -223,11 +223,11 @@ For our pipeline infrence, we have provided two options for our users : via an i
 
 Case I : Via JSON File 
 ```bash
-$ python3 inference.py --exp_name "Ver0" --input_image_json 'KH_TEST.json' --output_image_folder './KHMER_DATA' --model_weights_path 'BKS.pt' --input_json 
+python3 inference.py --exp_name "v0" --input_image_json 'test.json' --output_image_folder './output' --model_weights_path 'BKS.pt' --input_json 
 ```
 Case I : Via Image Folder Path 
 ```bash
-$ python3 inference.py --exp_name "Ver1" --input_image_folder './KH_TEST/images/' --output_image_folder './KHMER_DATA' --model_weights_path 'BKS.pt' --input_folder
+python3 inference.py --exp_name "v0" --input_image_folder './test/images/' --output_image_folder './output' --model_weights_path 'BKS.pt' --input_folder
 ```
 Please note , by default we store all the visualisations - binary image , raw scribble image and scribble overlaid images in the sub-directories of `visualisation_folder` , you can turn it off via '`vis` flag.
 
@@ -247,7 +247,7 @@ that would be optimal for you .
       - During Scribble Generation: Binary branch's decoder and also the encoder is freezed.
 - Configuration of GPU that we used and typical training time to achieve these results : 
   - 1 *NVIDIA GeForce GTX 1080 Ti* GPU, 12 GB of GDDR5X VRAM , 20 CPUs.
-- Refer sample training setup that we used for Sundanese Dataset [here](Sundanese Experiment /README.md).
+- Refer sample training setup that we used for Sundanese Dataset [here](SundaneseExperiment/SD_Configuration.json).
 
 ## Visual Results
 Attached is a collated diagram , starting top (clockwise ) from Bhoomi , Penn-In-Hand (PIH) , Khmer Palm Leaf Manuscript and Jain Manuscript . Of particular significance is the intrinsic precision exhibited by the predicted polygons depicted within, handling the presence of considerable image degradation, a complex multi-page layout, and an elevated aspect ratio, etc. 

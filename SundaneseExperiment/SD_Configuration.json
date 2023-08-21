@@ -1,5 +1,6 @@
 {   
     "dataset_code":"SD",
+    "expName":"SD_V0",
     "wid" : "", 
     "data_path":"data/", 
     "model_weights_path":"data/",
@@ -16,6 +17,8 @@
     "mode":"train",
     "train_scribble":true,
     "train_binary":false,
+    "print_interval":50,
+    "vis_interval":100,
     "pretrained_weights_path": "",
     "enabledWandb":false 
 }

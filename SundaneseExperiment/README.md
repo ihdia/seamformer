@@ -11,7 +11,7 @@ pip install gdown
 gdown 1bYqKGPeqZ0XpFJS6d9X8rKk078ESTUHn
 mkdir data/
 mv SD.zip data/
-unzip data/SD.zip -d data/SD/ 
+unzip data/SD.zip -d data/
 rm -rf data/SD.zip
 ```
 OR
@@ -39,26 +39,36 @@ data
 - Train Data
 ```bash
 python datapreparation.py \
- --datafolder '.data/' \
- --outputfolderPath '.data/SD_train_patches' \
- --inputjsonPath '.data/SD/SD_Train/SD_TRAIN.json' \
- --binaryFolderPath '.data/SD/SD_Train/binaryImages'
+ --datafolder 'data/' \
+ --outputfolderPath 'data/SD_train_patches' \
+ --inputjsonPath 'data/SD/SD_Train/SD_TRAIN.json' \
+ --binaryFolderPath 'data/SD/SD_Train/binaryImages'
 ```
 - Validation/Test Data
 ```bash
 python datapreparation.py \
- --datafolder '.data/' \
- --outputfolderPath '.data/SD_test_patches' \
- --inputjsonPath '.data/SD/SD_Test/SD_TEST.json' \
- --binaryFolderPath '.data/SD/SD_Test/binaryImages'
+ --datafolder 'data/' \
+ --outputfolderPath 'data/SD_test_patches' \
+ --inputjsonPath 'data/SD/SD_Test/SD_TEST.json' \
+ --binaryFolderPath 'data/SD/SD_Test/binaryImages'
 ```
 
 ### Training Binarisation Branch
 ```bash
-python train.py --exp_json_path 'SD_exp1_Configuration.json' --mode 'train' --train_binary
+python train.py --exp_json_path 'SundaneseExperiment/SD_Configuration.json' --mode 'train' --train_binary
 ```
 
 ### Training Scribble Branch
 ```bash
-python train.py --exp_json_path 'SD_exp1_Configuration.json' --mode 'train' --train_scribble
+python train.py --exp_json_path 'SundaneseExperiment/SD_Configuration.json' --mode 'train' --train_scribble
+```
+
+### Model Inference Instructions
+
+Please override the `model_weights_path` parameter as per your training checkpoint , here we are downloading 
+the default weight file .
+
+```bash
+./downloadWeights.sh
+python3 inference.py --exp_name "sd_inf" --input_image_json 'data/SD/SD_Test/SD_TEST.json' --output_image_folder './sd_output' --model_weights_path './weightsFolder/BKS.pt' 
 ```
