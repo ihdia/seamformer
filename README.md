@@ -261,7 +261,7 @@ Please use the following BibTeX entry for citation .
     title = {SeamFormer: High Precision Text Line Segmentation for Handwritten Documents},
     author = {Vadlamudi,Niharika and Rahul,Krishna and Sarvadevabhatla, Ravi Kiran},
     booktitle = {International Conference on Document Analysis and Recognition,
-            {ICDAR} 2023},
+            {ICDAR}},
     year = {2023},
 }
 ```
