@@ -5,7 +5,7 @@
 <h2> High Precision Text Line Segmentation for Handwritten Documents </h2>
 </samp>
 
-**_To appear at [ICDAR 2023](https://icdar2023.org/)_**
+**_[ICDAR 2023](https://icdar2023.org/)_**
 
 | **[ [```Paper```](<https://drive.google.com/file/d/1UU_4irR3m8IuuzuOXYl35eK6UbD2d3tH/view>) ]** | **[ [```Website```](<https://ihdia.iiit.ac.in/seamformer/>) ]** |
 |:-------------------:|:-------------------:|
@@ -47,7 +47,7 @@
     - [Configuration](#Preparing-the-configuration-file)
     - [Stage-1](#stage-1)
     - [Stage-2](#stage-2)
-5. [Finetuning](#finetuning) 
+5. [Finetuning](#finetuning--custom-dataset) 
 6. [Citation](#citation)
 7. [Contact](#contact)
 
