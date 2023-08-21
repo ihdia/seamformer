@@ -1,9 +1,9 @@
 ## Training Setup for Sundanese Dataset
 
 ### Sample images
-![Sample sundanese 1](assets/CB-3-18-90-7.jpg)
+![Sample sundanese 1](../assets/CB-3-18-90-7.jpg)
 
-![Sample sundanese 2](assets/CB-3-18-90-12.jpg)
+![Sample sundanese 2](../assets/CB-3-18-90-12.jpg)
 
 ### Dataset
 ```
