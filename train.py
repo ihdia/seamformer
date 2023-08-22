@@ -145,9 +145,9 @@ def validateNetwork(epoch,network,settings,validloader,vis=True):
 # Train ( Binary / Scribble ) with minimum of 100 samples .
 def trainNetwork(settings,min_samples=100):
     if settings['enabledWandb']:
-        experimentName=settings['experiment_base']+settings['wid']
+        experimentName=settings['expName']+settings['wid']
     else:
-        experimentName=settings['experiment_base']
+        experimentName=settings['expName']
     
     # Network
     network=buildModel(settings)
@@ -231,7 +231,7 @@ def trainNetwork(settings,min_samples=100):
              print('Epoch : {} Train Loss : {} Validation Loss is {} and PSNR is {}'.format(str(epoch),str(trainLoss),str(validationLoss), str(psnr)))
 
         # Logging ! 
-        if settings['enabledWandB']:
+        if settings['enabledWandb']:
             wandb.log({'epoch':epoch,'num_batches':iters})
             wandb.log({'epoch':epoch,'train_loss':trainLoss})
             wandb.log({'epoch':epoch,'lr':get_lr(optimizer)})

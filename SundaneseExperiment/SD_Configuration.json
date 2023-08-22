@@ -19,7 +19,7 @@
     "train_binary":false,
     "print_interval":50,
     "vis_interval":100,
-    "pretrained_weights_path": "",
+    "pretrained_weights_path": null,
     "enabledWandb":false 
 }
 

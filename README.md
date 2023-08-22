@@ -247,7 +247,7 @@ that would be optimal for you .
       - During Scribble Generation: Binary branch's decoder and also the encoder is freezed.
 - Configuration of GPU that we used and typical training time to achieve these results : 
   - 1 *NVIDIA GeForce GTX 1080 Ti* GPU, 12 GB of GDDR5X VRAM , 20 CPUs.
-- Refer sample training setup that we used for Sundanese Dataset [here](SundaneseExperiment/SD_Configuration.json).
+- Refer sample training setup that we used for Sundanese Dataset [here](./SundaneseExperiment/SD_Configuration.json).
 
 ## Visual Results
 Attached is a collated diagram , starting top (clockwise ) from Bhoomi , Penn-In-Hand (PIH) , Khmer Palm Leaf Manuscript and Jain Manuscript . Of particular significance is the intrinsic precision exhibited by the predicted polygons depicted within, handling the presence of considerable image degradation, a complex multi-page layout, and an elevated aspect ratio, etc. 

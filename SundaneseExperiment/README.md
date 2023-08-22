@@ -33,7 +33,7 @@ data
 ```
 
 ### Experiment Json Configuration
-- Refer: [SD_exp1_Configuration.json](SD_exp1_Configuration.json)
+- Refer: [SD_Configuration.json](SundaneseExperiment/SD_Configuration.json)
 
 ### Data Preparation for training
 - Train Data
