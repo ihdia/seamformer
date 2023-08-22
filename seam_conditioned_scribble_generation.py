@@ -315,8 +315,8 @@ def compute_optimal_seam(energy, region):
             optimal_choice = -1
 
             adjacents = [
+                ((row + 1, col - 1), DIAGONAL_LEFT),
                 ((row + 1, col), DOWN),
-                ((row + 1, col-1),DIAGONAL_LEFT),
                 ((row + 1, col + 1), DIAGONAL_RIGHT),
             ]
 
@@ -428,7 +428,7 @@ def get_energy_image_with_blur_masks(image_to_crop: Image, mask1, mask2, scribbl
     grayscale_to_crop = image_to_crop.convert('1')
     grayscale_to_crop_bytes = array(grayscale_to_crop)
     grayscale_to_crop_energy = apply_sobel(array(grayscale_to_crop_bytes))
-    grayscale_to_crop_energy = numpy.int32(0.6*grayscale_to_crop_energy + 0.4*numpy.float32(mask2))
+    grayscale_to_crop_energy = np.int32(0.6*grayscale_to_crop_energy + 0.4*np.float32(mask2))
     grayscale_to_crop_energy =markScribbleListGray(grayscale_to_crop_energy,scribbleList)
     return Image.fromarray(grayscale_to_crop_energy)
 

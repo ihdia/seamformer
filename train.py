@@ -277,9 +277,9 @@ if __name__ == "__main__":
     if args.mode is not None:
         settings['mode']=args.mode 
     if args.wandb:
-        settings['enableWandb']=True
+        settings['enabledWandb']=True
 
-    if settings['enableWandb']:
+    if settings['enabledWandb']:
         print('------------- Logging into WandB -------------')
         wandb.init(project="SeamFormer_Experiments",id=configs['wid'],resume='allow',config=configs)
         

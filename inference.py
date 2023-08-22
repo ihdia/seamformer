@@ -168,7 +168,7 @@ def postProcess(scribbleImage,binaryImage,binaryThreshold=50,rectangularKernel=5
     bin_ = binaryImage.astype(np.uint8)
     scr = scribbleImage.astype(np.uint8)
     # print('PP @ BIN SHAPE : {} SCRIBBLE SHAPE : {}'.format(scribbleImage.shape,binaryImage.shape))
-    bin_ = cv2.cvtColor(bin_,cv2.COLOR_BGR2GRAY)
+    # bin_ = cv2.cvtColor(bin_,cv2.COLOR_BGR2GRAY)
     H,W = bin_.shape
 
     # Threshold it
@@ -178,6 +178,7 @@ def postProcess(scribbleImage,binaryImage,binaryThreshold=50,rectangularKernel=5
     scr[scr<binaryThreshold]=0
 
     # We apply distance transform to thin the output polygon
+    scr = np.repeat(scr[:, :, np.newaxis], 3, axis=2) 
     scr = polygon_to_distance_mask(scr,threshold=30)
 
     # Bitwise AND of the textual region and polygon region ( only cut off letters will be highlighted)
@@ -191,6 +192,7 @@ def postProcess(scribbleImage,binaryImage,binaryThreshold=50,rectangularKernel=5
     scr_ = horizontal_dilation(scr_,rectangularKernel,3) # KH - 50 ,2 
    
     # Extract the final contours 
+    scr_ = np.repeat(scr_[:, :, np.newaxis], 3, axis=2) 
     contours = cleanImageFindContours(scr_,threshold = 0.15)
     # Combine the hulls that are on the same horizontal level 
     new_hulls = combine_hulls_on_same_level(contours)
@@ -281,6 +283,7 @@ def Inference(args):
     # Case II : Image Folder 
     if  args['input_image_folder'] is not None and args['input_image_json'] is None:
         files_ = os.listdir(args['input_image_folder'])
+        jsonOutput = []
         if len(files_)>0:
             for f in files_ : 
                 try:
@@ -321,7 +324,7 @@ def Inference(args):
                     scrs_ = [ np.asarray(gd).reshape((-1,2)).tolist() for gd in scribbles]
                     pps_ = [ np.asarray(gd).reshape((-1,2)).tolist() for gd in ppolygons]
 
-                    jsonOutput.append({'imgPath':record['imgPath'],'imgDims':[H,W],'predScribbles':scrs_,'predPolygons':pps_})
+                    jsonOutput.append({'imgPath':file_path,'imgDims':[H,W],'predScribbles':scrs_,'predPolygons':pps_})
                 
                 except Exception as exp:
                     print('Image :{} Error :{}'.format(file_name,exp))

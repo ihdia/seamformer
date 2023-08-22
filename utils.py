@@ -12,6 +12,7 @@ import copy
 import numpy as np
 from empatches import EMPatches
 from einops import rearrange
+from plantcv import plantcv as pcv
 
 
 global mean , std 
@@ -233,8 +234,8 @@ def combine_hulls_on_same_level(contours,tolerance=50):
     combined_hulls.append(current_combined_hull)
     # Returning them as hulls again
     nethulls = [cv2.convexHull(np.array(contour),dtype=np.int32) for contour in combined_hulls]
-    finalHulls = [ hull.reshape((-1,2)).tolist() for hull in nethulls ]
-    return finalHulls
+    # finalHulls = [ hull.reshape((-1,2)).tolist() for hull in nethulls ]
+    return nethulls
 
 
 # Text Dilation 

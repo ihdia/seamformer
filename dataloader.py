@@ -70,11 +70,11 @@ class ScribbleDataset(D.Dataset):
     def readImages(self,file_name):
         # Refer documentation for more details of how dataset folder should be structured.
         if self.config['train_scribble']:
-            imageURL = self.base_dir+'{}_{}'.format(self.config['dataset_code'],self.set)+'/images/'+file_name
-            gtURL = self.base_dir+'{}_{}'.format(self.config['dataset_code'],self.set)+'/scribbleMap/'+file_name.replace('im_','sm_')
+            imageURL = self.base_dir+'{}_{}_patches'.format(self.config['dataset_code'],self.set)+'/images/'+file_name
+            gtURL = self.base_dir+'{}_{}_patches'.format(self.config['dataset_code'],self.set)+'/scribbleMap/'+file_name.replace('im_','sm_')
         if self.config['train_binary']:
-            imageURL = self.base_dir+'{}_{}'.format(self.config['dataset_code'],self.set)+'/images/'+file_name
-            gtURL = self.base_dir+'{}_{}'.format(self.config['dataset_code'],self.set)+'/binaryImages/'+file_name.replace('im_','bm_')
+            imageURL = self.base_dir+'{}_{}_patches'.format(self.config['dataset_code'],self.set)+'/images/'+file_name
+            gtURL = self.base_dir+'{}_{}_patches'.format(self.config['dataset_code'],self.set)+'/binaryImages/'+file_name.replace('im_','bm_')
         
         if not (os.path.exists(imageURL) or not(os.path.exists(gtURL))):
             print("Image {} DOES NOT exists at the specified location.".format(imageURL))
@@ -127,8 +127,8 @@ Load Entire Dataset
 
 def loadDatasets(config,base_dir,flipped=False):
     # Load from the location
-    data_tr = list(os.listdir(base_dir+'{}_train/images/'.format(config['dataset_code'])))
-    data_va = list(os.listdir(base_dir+'{}_test/images/'.format(config['dataset_code'])))
+    data_tr = list(os.listdir(base_dir+'{}_train_patches/images/'.format(config['dataset_code'])))
+    data_va = list(os.listdir(base_dir+'{}_test_patches/images/'.format(config['dataset_code'])))
     print('For Dataset : {} Train List : {} Test List : {}'.format(config['dataset_code'],len(data_tr),len(data_va)))
     try:
         assert len(data_tr)>1 and len(data_va)>1,"Error in listing images!"
