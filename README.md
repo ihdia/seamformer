@@ -10,15 +10,6 @@
 | **[ [```Paper```](<https://drive.google.com/file/d/1UU_4irR3m8IuuzuOXYl35eK6UbD2d3tH/view>) ]** | **[ [```Website```](<https://ihdia.iiit.ac.in/seamformer/>) ]** |
 |:-------------------:|:-------------------:|
 
-<!-- <br>
-<img src="assets/SF-Slides-Page.png">
-</div> -->
-<div align="center">
-    <!-- <a href="https://youtu.be/V4XWngkrtxQ">
-        <img src="https://img.shields.io/badge/Watch on YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white"/>
-    </a> -->
-<!-- <br> -->
-
 <table>
     <tr>
         <td>
