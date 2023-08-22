@@ -14,6 +14,7 @@
     <tr>
         <td>
             <a href="https://drive.google.com/file/d/1aztOQW7b24D1OqzJ3Yv-j9XPG0iBbnap/view?usp=sharing" target="_blank">
+                <img src="assets/SF_Slides.png" alt="Watch the video" width="640" height="360" border="5"/>
             </a>
         </td>
     </tr>
