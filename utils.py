@@ -233,7 +233,7 @@ def combine_hulls_on_same_level(contours,tolerance=50):
     # Add the last combined hull
     combined_hulls.append(current_combined_hull)
     # Returning them as hulls again
-    nethulls = [cv2.convexHull(np.array(contour),dtype=np.int32) for contour in combined_hulls]
+    nethulls = [cv2.convexHull(np.array(contour,dtype=np.int32)) for contour in combined_hulls]
     # finalHulls = [ hull.reshape((-1,2)).tolist() for hull in nethulls ]
     return nethulls
 
