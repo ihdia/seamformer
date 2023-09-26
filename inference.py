@@ -164,46 +164,64 @@ def imageInference(network,path,args,PDIM=256,DIM=256,OVERLAP=0.25,save=True):
 '''
 Post Processing Function
 '''
-def postProcess(scribbleImage,binaryImage,binaryThreshold=50,rectangularKernel=50):
-    bin_ = binaryImage.astype(np.uint8)
-    scr = scribbleImage.astype(np.uint8)
+def postProcess(scribbleImage,binaryImage,binaryThreshold=40,rectangularKernel=30):
+    scr = np.repeat(scribbleImage[:, :, np.newaxis], 3, axis=2) 
+    bin = np.repeat(binaryImage[:, :, np.newaxis], 3, axis=2)
+    bin = bin.astype(np.uint8)
+    scr = scr.astype(np.uint8)
     # print('PP @ BIN SHAPE : {} SCRIBBLE SHAPE : {}'.format(scribbleImage.shape,binaryImage.shape))
     # bin_ = cv2.cvtColor(bin_,cv2.COLOR_BGR2GRAY)
-    H,W = bin_.shape
+    H,W,_ = bin.shape
+    mask_with_contours=copy.deepcopy(bin)
 
+    # We apply distance transform to thin the output polygon
+    
+    tmp = polygon_to_distance_mask(scr,threshold=30)
+    final_tmp = np.zeros_like(scr)
+    for j in range(3):
+        final_tmp[:, :, j] = tmp
+    scr = final_tmp
     # Threshold it
-    bin_[bin_>=binaryThreshold]=255
-    bin_[bin_<binaryThreshold]=0
+    bin[bin>=binaryThreshold]=255
+    bin[bin<binaryThreshold]=0
     scr[scr>=binaryThreshold]=255
     scr[scr<binaryThreshold]=0
 
-    # We apply distance transform to thin the output polygon
-    scr = np.repeat(scr[:, :, np.newaxis], 3, axis=2) 
-    scr = polygon_to_distance_mask(scr,threshold=30)
-
     # Bitwise AND of the textual region and polygon region ( only cut off letters will be highlighted)
-    scr_ = cv2.bitwise_and(bin_/255,scr/255)
+    scr_ = cv2.bitwise_and(bin/255,scr/255)
     # Dilate the existing text content 
     # scr_ = text_dilate(scr_,kernel_size=3,iterations=3) # SD = 3,3 
-    scr_ = text_dilate(scr_,kernel_size=3,iterations=7) # KH 3,7
+    scr_ = text_dilate(scr_,kernel_size=3,iterations=3) # KH 3,7
 
     # Dilate it horizontally to fill the gaps within the text region 
     # scr_ = horizontal_dilation(scr_,rectangularKernel,3) # SD - 50 ,3 
-    scr_ = horizontal_dilation(scr_,rectangularKernel,3) # KH - 50 ,2 
+    scr_ = horizontal_dilation(scr_,rectangularKernel,1) # KH - 50 ,2 
    
     # Extract the final contours 
-    scr_ = np.repeat(scr_[:, :, np.newaxis], 3, axis=2) 
-    contours = cleanImageFindContours(scr_,threshold = 0.15)
+    contours = cleanImageFindContours(scr_,threshold = 0.10)
+
     # Combine the hulls that are on the same horizontal level 
-    new_hulls = combine_hulls_on_same_level(contours)
+    new_hulls = combine_hulls_on_same_level(contours, tolerance=30)
+    
     # Scribble Generation
     predictedScribbles=[]
-    for hull in new_hulls:
-        hull = np.asarray(hull,dtype=np.int32).reshape((-1,2)).tolist()
-        scr_ = generateScribble(H,W,hull)
-        if scr_ is not None:
-            scr_ = np.asarray(hull).reshape((-1,2)).tolist()
-            predictedScribbles.append(scr_)
+
+    for c in new_hulls  :
+        canvas_copy = np.zeros(scr_.shape)
+        c = np.asarray(c,dtype=np.int32).reshape((-1,1,2))
+        canvas_copy = cv2.fillPoly(canvas_copy,np.int32([c]),(255,255,255))
+
+        contours = cleanImageFindContours(canvas_copy,threshold = 0.10)
+        h=np.asarray(contours[0],dtype=np.int32)
+        h = cv2.convexHull(h)
+        h=np.asarray(h,dtype=np.int32).reshape((-1,2))
+        h=h.tolist()
+        scr = generateScribble(H,W,h)
+        scr_arr = np.asarray(scr,dtype=np.int32).reshape((-1,1,2))
+        mask_with_contours=cv2.polylines(mask_with_contours,[scr_arr], isClosed=False, color=(0,255,0),thickness=3)
+
+        scr_lst = scr_arr.reshape((-1,2)).tolist()
+        predictedScribbles.append(scr_lst)
     return predictedScribbles
 
 '''
@@ -250,7 +268,7 @@ def Inference(args):
                 binaryMap=np.uint8(binaryMap)
                 scribbleMap=np.uint8(scribbleMap)
 
-                scribbles = postProcess(scribbleMap,binaryMap,binaryThreshold=50,rectangularKernel=50)
+                scribbles = postProcess(scribbleMap,binaryMap,binaryThreshold=40,rectangularKernel=30)
                 
                 # Storing .. # Put it under vis flag 
                 cv2.imwrite(os.path.join(scr_folder,'scr_'+file_name),scribbleMap)
@@ -299,7 +317,7 @@ def Inference(args):
                     scribbleMap=np.uint8(scribbleMap)
 
                     # Post Processing of Scribble Branch
-                    scribbles = postProcess(scribbleMap,binaryMap,binaryThreshold=50,rectangularKernel=50)
+                    scribbles = postProcess(scribbleMap,binaryMap,binaryThreshold=40,rectangularKernel=30)
                     
                     # Visualisation purpose
                     cv2.imwrite(os.path.join(scr_folder,'scr_'+file_name),scribbleMap)
