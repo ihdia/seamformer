@@ -19,7 +19,7 @@
         </td>
     </tr>
     <tr>
-        <th><samp>Teaser Video (Click to view) </samp></th>
+        <th><samp><a href="https://drive.google.com/file/d/1aztOQW7b24D1OqzJ3Yv-j9XPG0iBbnap/view?usp=sharing" target="_blank">Teaser Video (Click to view)</a></samp></th>
     </tr>
 </table>
 </div>
