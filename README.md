@@ -19,7 +19,7 @@
         </td>
     </tr>
     <tr>
-        <th><samp>Teaser Video </samp></th>
+        <th><samp>Teaser Video (Click to view) </samp></th>
     </tr>
 </table>
 </div>
