@@ -261,7 +261,7 @@ Generates Scribble given a polygon inputs and img dimensions (pmask)
 from scipy.interpolate import interp1d
 
 def uniformly_sampled_line(points):
-    num_points = min(len(points),250)
+    num_points = min(len(points),100)
     # Separate x and y coordinates from the given points
     x_coords, y_coords = zip(*points)
 
@@ -282,10 +282,86 @@ def uniformly_sampled_line(points):
 
     # Create a list of new points
     new_points = [[np.int32(new_x_coords[i]), np.int32(new_y_coords[i])] for i in range(num_points)]
-
     return new_points
 
-def find_corner_points(points):
+def draw_line_through_midpoints(box_points):
+    # Ensure points are ordered clockwise starting from the top-left corner
+    x_coords, y_coords = zip(*box_points)
+
+    top_left_index = np.argmin(x_coords + y_coords)
+    ordered_points = box_points[top_left_index:] + box_points[:top_left_index]
+    
+    # Calculate midpoints of the opposite sides
+    top_midpoint = ((ordered_points[0][0] + ordered_points[1][0]) / 2, (ordered_points[0][1] + ordered_points[1][1]) / 2)
+    bottom_midpoint = ((ordered_points[2][0] + ordered_points[3][0]) / 2, (ordered_points[2][1] + ordered_points[3][1]) / 2)
+    left_midpoint = ((ordered_points[0][0] + ordered_points[3][0]) / 2, (ordered_points[0][1] + ordered_points[3][1]) / 2)
+    right_midpoint = ((ordered_points[1][0] + ordered_points[2][0]) / 2, (ordered_points[1][1] + ordered_points[2][1]) / 2)
+
+    return [int(left_midpoint[0]), int(left_midpoint[1])], [int(right_midpoint[0]), int(right_midpoint[1])]
+
+def draw_line_through_midpoints_of_obb(polygon_points):
+    # Compute the oriented bounding box (OBB)
+    rect = cv2.minAreaRect(np.array(polygon_points, dtype=np.float32))
+
+    # Get the four corner points of the OBB
+    box_points = cv2.boxPoints(rect)
+    box_points = np.int0(box_points).tolist()
+
+    # Sort the points to ensure they are arranged from top-left to bottom-right
+    x_coords, y_coords = zip(*box_points)
+    top_left_index = np.argmin(x_coords + y_coords)
+    ordered_points = box_points[top_left_index:] + box_points[:top_left_index]
+
+    # Calculate midpoints of the opposite sides
+    top_midpoint = ((ordered_points[0][0] + ordered_points[1][0]) / 2, (ordered_points[0][1] + ordered_points[1][1]) / 2)
+    bottom_midpoint = ((ordered_points[2][0] + ordered_points[3][0]) / 2, (ordered_points[2][1] + ordered_points[3][1]) / 2)
+    left_midpoint = ((ordered_points[0][0] + ordered_points[3][0]) / 2, (ordered_points[0][1] + ordered_points[3][1]) / 2)
+    right_midpoint = ((ordered_points[1][0] + ordered_points[2][0]) / 2, (ordered_points[1][1] + ordered_points[2][1]) / 2)
+
+    # Determine the orientation (horizontal or vertical)
+    is_horizontal = abs(ordered_points[0][0] - ordered_points[1][0]) > abs(ordered_points[0][1] - ordered_points[3][1])
+    if is_horizontal:
+        return [ [int(left_midpoint[0]), int(left_midpoint[1])], [int(right_midpoint[0]), int(right_midpoint[1])]]
+    else:
+        return [ [int(top_midpoint[0]), int(top_midpoint[1])] , [int(bottom_midpoint[0]), int(bottom_midpoint[1])] ]
+
+
+def find_index_of_max_length_list(list_of_2d_lists):
+    return max(enumerate(list_of_2d_lists), key=lambda x: len(x[1]), default=(None, None))[0]
+
+
+def calculate_average_orientation(points):
+    # Calculate the centroid (mean) of the points
+    centroid_x = np.mean([point[0] for point in points])
+    centroid_y = np.mean([point[1] for point in points])
+
+    # Calculate the orientation (angle) relative to the centroid
+    orientations = [np.arctan2(point[1] - centroid_y, point[0] - centroid_x) for point in points]
+
+    # Calculate the average orientation
+    average_orientation = np.mean(orientations)
+
+    return average_orientation,centroid_x,centroid_y
+
+def remove_oriented_and_sharp_turn_points(points, angle_threshold_deg):
+    filtered_points = []
+    average_orientation,centroid_x,centroid_y = calculate_average_orientation(points)
+    angle_threshold_rad = np.radians(angle_threshold_deg)
+
+    for point in points:
+        # Calculate the orientation (angle) of the point relative to the centroid
+        point_orientation = np.arctan2(point[1] - centroid_y, point[0] - centroid_x)
+
+        # Calculate the angular difference between the point's orientation and the average orientation
+        angle_difference = abs(point_orientation - average_orientation)
+
+        # Check if the angle difference is below the threshold (not oriented or sharp turn)
+        if angle_difference <= angle_threshold_rad:
+            filtered_points.append(point)
+
+    return filtered_points
+
+def find_corner_points_polygon(points):
     if not points:
         return None, None
     # Sort the points based on their x-coordinate
@@ -294,23 +370,31 @@ def find_corner_points(points):
     rightmost_point = list(sorted_points[-1])
     return leftmost_point, rightmost_point
 
-def generateScribble(H,W,polygon):
+
+def generateScribble(H, W, polygon, isBox=False):
     # Generate Canvas
     canvas = np.zeros((H,W))
     # Mark the polygon on the canvas
-    leftmost_point, rightmost_point = find_corner_points(polygon)
+    if isBox is False:
+      leftmost_point, rightmost_point = draw_line_through_midpoints_of_obb(polygon)
+    else:
+      leftmost_point,rightmost_point = draw_line_through_midpoints(polygon)
     poly_arr = np.asarray(polygon,dtype=np.int32).reshape((-1,1,2))
     canvas = cv2.fillPoly(canvas,[poly_arr],(255,255,255))
     # Scribble generation
     skeleton = pcv.morphology.skeletonize(canvas)
     pruned_skeleton,_,segment_objects = pcv.morphology.prune(skel_img=skeleton,size=100)
-    scribble = np.asarray(segment_objects[0],dtype=np.int32).reshape((-1,2))
+    index = find_index_of_max_length_list(segment_objects)
+    scribble = np.asarray(segment_objects[index],dtype=np.int32).reshape((-1,2))
     scribble=scribble.tolist()
-    scribble = uniformly_sampled_line(scribble)
+    scribble = sorted(scribble, key=lambda point: point[0])
+    scribble = remove_oriented_and_sharp_turn_points(scribble, angle_threshold_deg=30)
+
+     # return scribble
     if leftmost_point is not None and rightmost_point is not None :
       scribble.append(leftmost_point)
       scribble.append(rightmost_point)
-      scribble = sorted(scribble, key=lambda point: point[0])
+    scribble = sorted(scribble, key=lambda point: point[0])
     return scribble
 
 # New helper function

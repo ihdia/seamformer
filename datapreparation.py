@@ -151,7 +151,8 @@ def datasetPrepare(args):
             if  'scribbles' not in datapoint:
                 H = img.shape[0]
                 W = img.shape[1]
-                scribbles = [generateScribble(H, W, polygon) for polygon in datapoint['gdPolygons'] ]
+                # if the ground truth polygons are in rectangular shape set isBox=True, else isBox=False
+                scribbles = [generateScribble(H, W, polygon, isBox=False) for polygon in datapoint['gdPolygons'] ]
             else:   
                 scribbles = [scr for scr in  datapoint['scribbles']]
             sMap = get_channel_scibbles(img,scribbles,thickness=THICKNESS)
